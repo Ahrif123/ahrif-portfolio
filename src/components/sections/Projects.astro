@@ -1,0 +1,53 @@
+---
+import { projects } from '../../data/projects';
+---
+<section class="projects container" aria-labelledby="projects-title">
+  <h2 id="projects-title">Other projects</h2>
+  <p class="intro">Small tools I built for the work I do as a tester.</p>
+
+  <ul class="list">
+    {projects.map((p) => (
+      <li class="item">
+        <div class="text">
+          <h3>
+            <a href={p.url} target="_blank" rel="noopener">
+              {p.name}<span class="sr-only"> (opens in a new tab)</span>
+            </a>
+          </h3>
+          <p>{p.summary}</p>
+        </div>
+        <ul class="tech" aria-label="Built with">
+          {p.tech.map((t) => <li>{t}</li>)}
+        </ul>
+      </li>
+    ))}
+  </ul>
+</section>
+
+<style>
+  .projects { display: grid; gap: var(--space-m); padding-block: var(--space-2xl); }
+  .intro { color: var(--c-ink-soft); }
+  .list { list-style: none; padding: 0; margin-top: var(--space-m); border-top: 1px solid var(--c-line); }
+  .item {
+    display: grid;
+    gap: var(--space-s);
+    padding-block: var(--space-l);
+    border-bottom: 1px solid var(--c-line);
+  }
+  @media (min-width: 48rem) {
+    .item { grid-template-columns: 1fr auto; align-items: start; gap: var(--space-xl); }
+  }
+  h3 { font-size: var(--step-1); margin-bottom: var(--space-2xs); }
+  h3 a { text-decoration: none; }
+  h3 a:hover { text-decoration: underline; text-decoration-color: var(--c-markup); }
+  .text p { color: var(--c-ink-soft); font-size: var(--step--1); }
+  .tech { list-style: none; padding: 0; display: flex; flex-wrap: wrap; gap: var(--space-xs); }
+  .tech li {
+    font-size: var(--step--1);
+    padding: 0.15rem 0.6rem;
+    border: 1px solid var(--c-line);
+    border-radius: var(--radius-s);
+    background: var(--c-surface);
+    white-space: nowrap;
+  }
+</style>
