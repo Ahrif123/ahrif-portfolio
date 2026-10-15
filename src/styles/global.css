@@ -78,3 +78,19 @@ a:hover { text-decoration-color: var(--c-markup); }
     transition-duration: 0.01ms !important;
   }
 }
+/* Buttons */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 2.75rem; /* 44px touch target */
+  padding: 0 1.15rem;
+  border: 1px solid var(--c-ink);
+  border-radius: var(--radius-s);
+  font-weight: 600;
+  text-decoration: none;
+  transition: background-color 0.15s, color 0.15s;
+}
+.btn:hover { background: var(--c-surface); }
+.btn-primary { background: var(--c-ink); color: var(--c-canvas); }
+.btn-primary:hover { background: var(--c-markup); border-color: var(--c-markup); color: #fff; }

@@ -1,28 +1,7 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
+import Hero from '../components/sections/Hero.astro';
 ---
 <BaseLayout>
-  <section class="container preview">
-    <h1>Ahrif Hajjie Cruz</h1>
-    <p class="lead">I test software for a living and build it on the side.</p>
-    <p class="note">← this is the markup layer</p>
-    <p>
-      Body text uses Atkinson Hyperlegible Next. Press <kbd>Tab</kbd> to check
-      that the focus outline shows on this <a href="#">sample link</a>.
-    </p>
-    <div class="swatches">
-      <span style="background:var(--c-ink)">ink</span>
-      <span style="background:var(--c-markup)">markup</span>
-      <span style="background:var(--c-pass)">pass</span>
-      <span style="background:var(--c-highlight);color:#1a2238">highlight</span>
-    </div>
-  </section>
+  <Hero />
 </BaseLayout>
-
-<style>
-  .preview { padding-block: var(--space-2xl); display: grid; gap: var(--space-l); }
-  .lead { font-size: var(--step-2); font-family: var(--font-display); color: var(--c-ink-soft); }
-  .note { font-family: var(--font-hand); font-size: var(--step-2); color: var(--c-markup); transform: rotate(-2deg); }
-  .swatches { display: flex; flex-wrap: wrap; gap: var(--space-xs); }
-  .swatches span { color: #fff; padding: var(--space-xs) var(--space-m); border-radius: var(--radius-s); font-size: var(--step--1); }
-</style>

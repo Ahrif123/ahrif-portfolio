@@ -1,0 +1,190 @@
+---
+import { site } from '../../data/site';
+---
+<section class="hero container" aria-labelledby="hero-title">
+  <div class="intro">
+    <h1 id="hero-title">Ahrif Hajjie Cruz</h1>
+    <p class="role">QA tester who also builds the front end.</p>
+    <p class="summary">
+      I spent six months testing an HRIS platform: writing step-by-step test
+      cases, logging defects in Jira and retesting every fix. Now I'm adding
+      Playwright automation and building my own apps, like MUSÉA, an art
+      community I built and tested end to end.
+    </p>
+    <div class="cta">
+      <a class="btn btn-primary" href="/work/musea">Read the MUSÉA case study</a>
+      <a class="btn" href={site.resume} download>Download resume</a>
+    </div>
+    <p class="availability">
+      <span class="status-dot" aria-hidden="true"></span>
+      Open to QA roles in Cavite, Metro Manila or remote
+    </p>
+  </div>
+
+  <figure class="specimen">
+    <div class="board">
+      <!-- A rebuilt copy of the bug, so the markup has something real to point at -->
+      <div class="comment" aria-hidden="true">
+        <span class="avatar">M</span>
+        <div class="comment-body">
+          <p class="comment-meta"><strong>mika</strong> <span>Lv 2</span> <span>2 weeks ago</span></p>
+          <p class="comment-text">The light on the water is perfect.</p>
+          <span class="reaction">♥ 1</span>
+          <div class="comment-actions">
+            <span>Reply</span>
+            <span class="is-bug">Delete</span>
+            <span class="pin pin-1">1</span>
+            <span class="pin pin-2">2</span>
+            <svg class="circle" viewBox="0 0 220 80" preserveAspectRatio="none">
+              <path pathLength="1" d="M24 44 C18 18 110 6 186 16 C214 22 216 56 182 66 C122 78 34 74 14 52 C6 40 34 22 70 18" />
+            </svg>
+            <span class="scribble">3px low!</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <figcaption>
+      <ol class="notes">
+        <li><span class="pin">1</span>"Delete" sits 3px below "Reply". The row lines up the boxes, not the text.</li>
+        <li><span class="pin">2</span>Only "Delete" is underlined, so the two actions don't look related.</li>
+      </ol>
+      <a class="source" href="/work/musea#bugs">BUG-MUS-001, from my MUSÉA bug log</a>
+    </figcaption>
+  </figure>
+</section>
+
+<style>
+  .hero {
+    display: grid;
+    gap: var(--space-2xl);
+    padding-block: var(--space-2xl);
+  }
+  @media (min-width: 60rem) {
+    .hero { grid-template-columns: 1.05fr 1fr; align-items: center; }
+  }
+
+  /* Intro */
+  .intro { display: grid; gap: var(--space-l); }
+  h1 { overflow-wrap: anywhere; }
+  .role {
+    font-family: var(--font-display);
+    font-size: var(--step-2);
+    font-weight: 500;
+    color: var(--c-ink-soft);
+    margin-top: calc(-1 * var(--space-s));
+  }
+  .summary { color: var(--c-ink-soft); }
+  .cta { display: flex; flex-wrap: wrap; gap: var(--space-s); }
+  .availability {
+    display: flex;
+    align-items: center;
+    gap: var(--space-xs);
+    font-size: var(--step--1);
+    color: var(--c-ink-soft);
+  }
+  .status-dot { width: 0.6rem; height: 0.6rem; border-radius: 50%; background: var(--c-pass); flex: none; }
+
+  /* Review board: dotted canvas like a design-review tool */
+  .board {
+    position: relative;
+    padding: var(--space-2xl) var(--space-l);
+    border: 1px solid var(--c-line);
+    border-radius: var(--radius-l);
+    background-color: var(--c-surface);
+    background-image: radial-gradient(color-mix(in srgb, var(--c-ink) 14%, transparent) 1px, transparent 1px);
+    background-size: 18px 18px;
+  }
+
+  /* The rebuilt comment */
+  .comment {
+    display: flex;
+    gap: var(--space-s);
+    max-width: 22rem;
+    padding: var(--space-m) var(--space-l) var(--space-l);
+    background: var(--c-canvas);
+    border: 1px solid var(--c-line);
+    border-radius: 12px;
+    font-size: var(--step--1);
+  }
+  .avatar {
+    display: grid; place-items: center; flex: none;
+    width: 2.25rem; height: 2.25rem; border-radius: 50%;
+    background: var(--c-ink); color: var(--c-canvas); font-weight: 700;
+  }
+  .comment-body { display: grid; gap: var(--space-xs); justify-items: start; }
+  .comment-meta { display: flex; gap: var(--space-xs); color: var(--c-ink-soft); }
+  .comment-meta strong { color: var(--c-ink); }
+  .comment-text { font-size: var(--step-0); }
+  .reaction {
+    padding: 0.1rem 0.6rem; border: 1px solid var(--c-line);
+    border-radius: 999px; background: var(--c-surface);
+  }
+
+  .comment-actions {
+    position: relative;
+    display: inline-flex;
+    align-items: flex-start;
+    gap: 1.25rem;
+    margin-top: var(--space-xs);
+    color: var(--c-ink-soft);
+  }
+  /* The bug, reproduced on purpose */
+  .is-bug { transform: translateY(3px); text-decoration: underline; }
+
+  /* Markup layer */
+  .pin {
+    display: inline-grid; place-items: center; flex: none;
+    width: 1.35rem; height: 1.35rem; border-radius: 50%;
+    background: var(--c-markup); color: #fff;
+    font-size: 0.72rem; font-weight: 700; font-family: var(--font-body);
+  }
+  .comment-actions .pin { position: absolute; opacity: 0; animation: appear 0.3s ease-out 1.2s forwards; }
+  .pin-1 { top: -1.6rem; left: 2.4rem; }
+  .pin-2 { bottom: -1.7rem; right: -0.6rem; }
+
+  .circle {
+    position: absolute;
+    inset: -1.1rem -1.6rem;
+    width: calc(100% + 3.2rem);
+    height: calc(100% + 2.2rem);
+    overflow: visible;
+    pointer-events: none;
+  }
+  .circle path {
+    fill: none;
+    stroke: var(--c-markup);
+    stroke-width: 2.5;
+    stroke-linecap: round;
+    vector-effect: non-scaling-stroke;
+    stroke-dasharray: 1;
+    stroke-dashoffset: 1;
+    animation: draw 0.9s ease-out 0.4s forwards;
+  }
+  .scribble {
+    position: absolute;
+    left: calc(100% + 2.2rem);
+    top: -0.6rem;
+    white-space: nowrap;
+    font-family: var(--font-hand);
+    font-size: var(--step-2);
+    color: var(--c-markup);
+    transform: rotate(-6deg);
+    opacity: 0;
+    animation: appear 0.3s ease-out 1.2s forwards;
+  }
+
+  figcaption { display: grid; gap: var(--space-s); margin-top: var(--space-l); }
+  .notes { list-style: none; padding: 0; display: grid; gap: var(--space-xs); }
+  .notes li { display: flex; gap: var(--space-xs); align-items: baseline; font-size: var(--step--1); }
+  .source { font-size: var(--step--1); color: var(--c-ink-soft); }
+
+  @keyframes draw { to { stroke-dashoffset: 0; } }
+  @keyframes appear { to { opacity: 1; } }
+
+  /* No motion? Show the finished markup straight away */
+  @media (prefers-reduced-motion: reduce) {
+    .circle path { stroke-dashoffset: 0; animation: none; }
+    .comment-actions .pin, .scribble { opacity: 1; animation: none; }
+  }
+</style>
