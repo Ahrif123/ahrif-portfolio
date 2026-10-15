@@ -9,7 +9,7 @@ export const site = {
   resume: '/files/Ahrif-Cruz-QA-Resume.pdf',
   location: { city: 'General Trias', region: 'Cavite', country: 'PH' },
   socials: {
-    github: 'https://github.com/ahrifhajjiercruz-tech',
+    github: 'https://github.com/Ahrif123',
     linkedin: '', // add your LinkedIn URL
   },
   skills: ['Manual testing', 'Test case design', 'Playwright', 'TypeScript', 'Jira', 'Regression testing'],
