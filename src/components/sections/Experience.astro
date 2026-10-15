@@ -1,8 +1,12 @@
 ---
 import { experience } from '../../data/experience';
+const SHOWN = 4; // how many points show before "Show more"
 ---
 <section id="experience" class="experience container" aria-labelledby="experience-title">
-  <h2 id="experience-title">Experience</h2>
+  <header class="section-head">
+    <h2 id="experience-title">Experience</h2>
+    <p>Where I learned to test properly, and where I learned to automate.</p>
+  </header>
 
   <ol class="timeline">
     {experience.map((role) => (
@@ -17,9 +21,23 @@ import { experience } from '../../data/experience';
         <div class="what">
           <h3>{role.title}</h3>
           <p class="company">{role.company}, {role.location}</p>
+
           <ul class="points">
-            {role.points.map((point) => <li>{point}</li>)}
+            {role.points.slice(0, SHOWN).map((point) => <li>{point}</li>)}
           </ul>
+
+          {role.points.length > SHOWN && (
+            <details class="more">
+              <summary>
+                <span class="label-closed">Show {role.points.length - SHOWN} more</span>
+                <span class="label-open">Show less</span>
+              </summary>
+              <ul class="points">
+                {role.points.slice(SHOWN).map((point) => <li>{point}</li>)}
+              </ul>
+            </details>
+          )}
+
           <ul class="tools" aria-label="Tools used">
             {role.tools.map((tool) => <li>{tool}</li>)}
           </ul>
@@ -34,8 +52,10 @@ import { experience } from '../../data/experience';
     display: grid;
     gap: var(--space-xl);
     padding-block: var(--space-2xl);
-    scroll-margin-top: 4rem; /* so the sticky header doesn't cover the heading */
+    scroll-margin-top: 4rem;
   }
+  .section-head { display: grid; gap: var(--space-s); }
+  .section-head p { color: var(--c-ink-soft); }
 
   .timeline { list-style: none; padding: 0; display: grid; }
 
@@ -59,10 +79,11 @@ import { experience } from '../../data/experience';
     background: var(--c-canvas);
     border: 2px solid var(--c-ink);
   }
+  .role:first-child::before { background: var(--c-ink); } /* most recent role gets a filled dot */
 
   .dates { font-weight: 600; white-space: nowrap; }
   .duration, .company { color: var(--c-ink-soft); font-size: var(--step--1); }
-  .what { display: grid; gap: var(--space-xs); }
+  .what { display: grid; gap: var(--space-xs); justify-items: start; }
   h3 { font-size: var(--step-2); }
 
   .points {
@@ -74,6 +95,37 @@ import { experience } from '../../data/experience';
     list-style: disc;
   }
   .points li::marker { color: var(--c-ink-soft); }
+
+  /* "Show more" toggle */
+  .more summary {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-2xs);
+    min-height: 2.75rem;
+    cursor: pointer;
+    font-weight: 600;
+    list-style: none;
+    text-decoration: underline;
+    text-decoration-color: var(--c-markup);
+    text-decoration-thickness: 2px;
+    text-underline-offset: 0.25em;
+  }
+  .more summary::-webkit-details-marker { display: none; }
+  .more summary::after {
+    content: '';
+    width: 0.45rem;
+    height: 0.45rem;
+    margin-left: 0.3rem;
+    border-right: 2px solid currentColor;
+    border-bottom: 2px solid currentColor;
+    transform: translateY(-2px) rotate(45deg);
+    transition: transform 0.2s;
+  }
+  .more[open] summary::after { transform: translateY(2px) rotate(-135deg); }
+  .label-open { display: none; }
+  .more[open] .label-open { display: inline; }
+  .more[open] .label-closed { display: none; }
+  .more .points { margin-top: 0; margin-bottom: var(--space-xs); }
 
   .tools {
     list-style: none;
@@ -118,5 +170,6 @@ import { experience } from '../../data/experience';
       background: var(--c-canvas);
       border: 2px solid var(--c-ink);
     }
+    .role:first-child .what::before { background: var(--c-ink); }
   }
 </style>
