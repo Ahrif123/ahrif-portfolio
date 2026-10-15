@@ -1,15 +1,27 @@
 ---
 import { site } from '../../data/site';
+
 const year = new Date().getFullYear();
 const repo = 'https://github.com/Ahrif123/ahrif-portfolio';
 ---
 <footer class="site-footer" id="contact">
   <div class="container inner">
     <div class="pitch">
-      <h2>Looking for a QA tester?</h2>
-      <p>I'm open to QA roles, on-site in Cavite or Metro Manila, or remote.</p>
-      <a class="email" href={`mailto:${site.email}`}>{site.email}</a>
-      <a class="phone" href={`tel:${site.phoneHref}`}>{site.phone}</a>
+      <div class="intro">
+        <h2>Looking for a QA tester?</h2>
+        <p>I'm open to QA roles, on-site in Cavite or Metro Manila, or remote.</p>
+      </div>
+
+      <dl class="contact">
+        <div>
+          <dt>Email</dt>
+          <dd><a href={`mailto:${site.email}`}>{site.email}</a></dd>
+        </div>
+        <div>
+          <dt>Phone</dt>
+          <dd><a href={`tel:${site.phoneHref}`}>{site.phone}</a></dd>
+        </div>
+      </dl>
     </div>
 
     <ul class="links">
@@ -18,7 +30,7 @@ const repo = 'https://github.com/Ahrif123/ahrif-portfolio';
       <li><a href={site.resume} download>Resume (PDF)</a></li>
     </ul>
 
-       <p class="meta">
+    <p class="meta">
       © {year} {site.name}. Built with Astro.{' '}
       <a href={`${repo}/actions`}>Tested with Playwright on every push.</a>
     </p>
@@ -27,15 +39,31 @@ const repo = 'https://github.com/Ahrif123/ahrif-portfolio';
 
 <style>
   .site-footer {
-    margin-top: var(--space-2xl);
+    margin-top: 0;
     background: var(--c-ink);
     color: var(--c-canvas);
     padding-block: var(--space-2xl) var(--space-xl);
+    scroll-margin-top: 4rem;
   }
   .inner { display: grid; gap: var(--space-xl); }
-  .pitch { display: grid; gap: var(--space-s); }
-  .pitch p { opacity: 0.8; }
-  .email {
+  @media (min-width: 48rem) {
+    .inner { grid-template-columns: 1fr auto; align-items: end; }
+    .meta { grid-column: 1 / -1; }
+  }
+
+  .pitch { display: grid; gap: var(--space-xl); }
+  .intro { display: grid; gap: var(--space-xs); }
+  .intro h2 { font-size: var(--step-4); }
+  .intro p { opacity: 0.8; }
+
+  /* Contact details */
+  .contact { display: grid; gap: var(--space-l); }
+  @media (min-width: 36rem) {
+    .contact { grid-template-columns: auto auto; justify-content: start; column-gap: var(--space-2xl); }
+  }
+  dt { font-size: var(--step--1); opacity: 0.7; margin-bottom: var(--space-2xs); }
+  dd { margin: 0; }
+  dd a {
     font-family: var(--font-display);
     font-size: var(--step-2);
     font-weight: 600;
@@ -43,8 +71,10 @@ const repo = 'https://github.com/Ahrif123/ahrif-portfolio';
     text-decoration-thickness: 2px;
     word-break: break-word;
   }
-  .phone { font-size: var(--step-1); text-decoration-color: var(--c-markup); width: fit-content; }
+
   .links { list-style: none; padding: 0; display: flex; flex-wrap: wrap; gap: var(--space-l); }
+  .links a { display: inline-block; padding-block: var(--space-xs); } /* bigger tap target */
+
   .meta {
     font-size: var(--step--1);
     opacity: 0.7;
