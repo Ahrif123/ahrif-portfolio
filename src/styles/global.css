@@ -199,3 +199,31 @@ article.bug:hover, article.doc:hover {
   .work .frame:hover img { transform: none; object-position: top; }
   .btn:hover { transform: none; }
 }
+
+/* =========================================================
+   Color pass: Studio blue / Night review
+   ========================================================= */
+body { transition: background-color 0.3s, color 0.3s; }
+
+/* Bands use the blue tint instead of plain white */
+.band { background: var(--c-band); }
+
+/* Highlighter marks */
+mark {
+  background: var(--c-highlight);
+  color: #14203f;
+  padding: 0.05em 0.3em;
+  border-radius: 4px;
+  -webkit-box-decoration-break: clone;
+  box-decoration-break: clone;
+}
+
+/* The heading marker stroke glows a little at night */
+:root[data-theme='dark'] main h2::after { filter: drop-shadow(0 0 4px rgb(255 79 154 / 0.7)); }
+
+/* The current role's timeline dot uses the second accent */
+.role:first-child::before,
+.role:first-child .what::before { border-color: var(--c-sky); }
+@media (min-width: 48rem) {
+  .role:first-child .what::before { background: var(--c-sky); }
+}

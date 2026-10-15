@@ -4,9 +4,9 @@ import portrait from '../../assets/images/ahrif.jpg';
 import { site } from '../../data/site';
 
 const proof = [
-  '6 months testing an HRIS platform',
-  'A 21-case test suite for MUSÉA',
-  '30 automated checks on every push',
+  { mark: '6 months', rest: ' testing an HRIS platform' },
+  { mark: '21-case', rest: ' test suite for MUSÉA' },
+  { mark: '30 automated checks', rest: ' on every push' },
 ];
 ---
 <section class="hero container" aria-labelledby="hero-title">
@@ -29,7 +29,7 @@ const proof = [
       {proof.map((item) => (
         <li>
           <svg viewBox="0 0 16 16" aria-hidden="true"><path d="M3 8.5l3 3 7-7" /></svg>
-          {item}
+          <span><mark>{item.mark}</mark>{item.rest}</span>
         </li>
       ))}
     </ul>
@@ -72,31 +72,47 @@ const proof = [
     </div>
 
     <figcaption>
-      <ol class="notes">
-        <li><span class="pin">1</span>"Delete" sits 3px below "Reply". The row lines up the boxes, not the text.</li>
-        <li><span class="pin">2</span>Only "Delete" is underlined, so the two actions don't look related.</li>
-      </ol>
-      <a class="source" href="/qa#bug-mus-001">BUG-MUS-001, from my MUSÉA bug log</a>
+      <div class="sticky">
+        <ol class="notes">
+          <li><span class="pin">1</span>"Delete" sits 3px below "Reply". The row lines up the boxes, not the text.</li>
+          <li><span class="pin">2</span>Only "Delete" is underlined, so the two actions don't look related.</li>
+        </ol>
+        <a class="source" href="/qa#bug-mus-001">BUG-MUS-001, from my MUSÉA bug log</a>
+      </div>
     </figcaption>
   </figure>
 </section>
 
 <style>
+  /* ---------- The blue panel ---------- */
   .hero {
     display: grid;
     gap: var(--space-2xl);
-    padding-block: var(--space-xl) var(--space-2xl);
+    margin-top: var(--space-m);
+    padding: clamp(1.25rem, 0.5rem + 4vw, 4.5rem);
+    border-radius: clamp(18px, 2vw, 28px);
+    background:
+      radial-gradient(60% 70% at 85% 25%, var(--hero-glow-1), transparent 65%),
+      radial-gradient(45% 55% at 0% 100%, var(--hero-glow-2), transparent 70%),
+      var(--hero-bg);
+    overflow: hidden; /* nothing can poke out sideways on small phones */
   }
   @media (min-width: 60rem) {
-    .hero {
-      grid-template-columns: 1.1fr 0.9fr;
-      align-items: center;
-      padding-block: var(--space-2xl);
-    }
+    .hero { grid-template-columns: 1.1fr 0.9fr; align-items: center; }
   }
 
-  /* ---------- Intro ---------- */
-  .intro { display: grid; gap: var(--space-l); }
+  /* ---------- Intro (light text on the blue panel) ---------- */
+  .intro {
+    --c-ink: var(--hero-ink);
+    --c-ink-soft: var(--hero-ink-soft);
+    --c-line: var(--hero-line);
+    --c-canvas: var(--hero-bg);
+    --c-surface: rgb(255 255 255 / 0.08);
+    --c-pass: var(--hero-pass);
+    color: var(--c-ink);
+    display: grid;
+    gap: var(--space-l);
+  }
   h1 { overflow-wrap: anywhere; }
   .role {
     margin-top: calc(-1 * var(--space-s));
@@ -112,7 +128,7 @@ const proof = [
     .cta { display: flex; flex-wrap: wrap; }
   }
 
-  .proof { list-style: none; padding: 0; display: grid; gap: var(--space-xs); }
+  .proof { list-style: none; padding: 0; display: grid; gap: var(--space-s); }
   .proof li { display: flex; align-items: center; gap: var(--space-xs); }
   .proof svg {
     flex: none;
@@ -120,7 +136,7 @@ const proof = [
     height: 1.1rem;
     fill: none;
     stroke: var(--c-pass);
-    stroke-width: 2.2;
+    stroke-width: 2.4;
     stroke-linecap: round;
     stroke-linejoin: round;
   }
@@ -134,21 +150,24 @@ const proof = [
     font-size: var(--step--1);
     color: var(--c-ink-soft);
   }
-  .status-dot { flex: none; width: 0.6rem; height: 0.6rem; border-radius: 50%; background: var(--c-pass); }
+  .status-dot {
+    flex: none;
+    width: 0.6rem;
+    height: 0.6rem;
+    border-radius: 50%;
+    background: var(--c-pass);
+    box-shadow: 0 0 0 4px color-mix(in srgb, var(--c-pass) 25%, transparent);
+  }
 
   /* ---------- Photo + review note ---------- */
-  .visual {
-    width: 100%;
-    max-width: 30rem;
-    justify-self: center;
-  }
+  .visual { width: 100%; max-width: 30rem; justify-self: center; }
   .visual :global(.portrait) {
     width: 100%;
     aspect-ratio: 4 / 5;
     object-fit: cover;
     object-position: 50% 22%;
     border-radius: var(--radius-l);
-    border: 1px solid var(--c-line);
+    border: 1px solid var(--hero-line);
   }
 
   .comment {
@@ -156,22 +175,23 @@ const proof = [
     display: flex;
     gap: var(--space-s);
     width: min(94%, 23rem);
-    margin: -4.5rem 0 0 auto;     /* phones: overlaps the bottom-right of the photo */
+    margin: -4.5rem 0 0 auto;
     padding: var(--space-m) var(--space-l) var(--space-l);
     background: var(--c-surface);
+    color: var(--c-ink);
     border: 1px solid var(--c-line);
     border-radius: 12px;
-    box-shadow: 0 24px 48px -24px rgb(26 34 56 / 0.55);
+    box-shadow: 0 24px 48px -20px rgb(0 0 0 / 0.55);
     font-size: var(--step--1);
   }
   @media (min-width: 60rem) {
-    .comment { margin: -7rem 0 0 -3.5rem; } /* desktop: hangs off the left edge of the photo */
+    .comment { margin: -7rem 0 0 -3.5rem; }
   }
 
   .avatar {
     display: grid; place-items: center; flex: none;
     width: 2.25rem; height: 2.25rem; border-radius: 50%;
-    background: var(--c-ink); color: var(--c-canvas); font-weight: 700;
+    background: var(--c-sky); color: #fff; font-weight: 700;
   }
   .comment-body { display: grid; gap: var(--space-xs); justify-items: start; }
   .comment-meta { display: flex; gap: var(--space-xs); color: var(--c-ink-soft); }
@@ -192,17 +212,16 @@ const proof = [
     margin-top: var(--space-xs);
     color: var(--c-ink-soft);
   }
-  /* The bug, reproduced on purpose */
-  .is-bug { transform: translateY(3px); text-decoration: underline; }
+  .is-bug { transform: translateY(3px); text-decoration: underline; } /* the bug, on purpose */
 
   /* ---------- Markup layer ---------- */
   .pin {
     display: inline-grid; place-items: center; flex: none;
     width: 1.35rem; height: 1.35rem; border-radius: 50%;
-    background: var(--c-markup); color: #fff;
+    background: var(--c-markup); color: var(--c-on-markup);
     font-family: var(--font-body); font-size: 0.72rem; font-weight: 700;
   }
-  .comment-actions .pin { position: absolute; opacity: 0; animation: appear 0.3s ease-out 1.2s forwards; }
+  .comment-actions .pin { position: absolute; opacity: 0; animation: appear 0.3s ease-out 2.2s forwards; }
   .pin-1 { top: -1.6rem; left: 2.4rem; }
   .pin-2 { bottom: -1.7rem; right: -0.6rem; }
 
@@ -225,6 +244,8 @@ const proof = [
     stroke-dashoffset: 1;
     animation: draw 0.9s ease-out 1.4s forwards;
   }
+  :global(:root[data-theme='dark']) .circle { filter: drop-shadow(0 0 6px rgb(255 79 154 / 0.7)); }
+
   .scribble {
     position: absolute;
     left: calc(100% + 2rem);
@@ -241,10 +262,22 @@ const proof = [
     .scribble { font-size: var(--step-2); }
   }
 
-  figcaption { display: grid; gap: var(--space-s); margin-top: var(--space-xl); }
+  /* ---------- Sticky note ---------- */
+  figcaption { margin-top: var(--space-xl); }
+  .sticky {
+    display: grid;
+    gap: var(--space-s);
+    padding: var(--space-m) var(--space-l);
+    background: var(--c-note);
+    color: var(--c-note-ink);
+    border-radius: 3px 3px 14px 3px;
+    transform: rotate(-1.2deg);
+    box-shadow: 0 16px 28px -18px rgb(0 0 0 / 0.6);
+  }
   .notes { list-style: none; padding: 0; display: grid; gap: var(--space-xs); }
   .notes li { display: flex; gap: var(--space-xs); align-items: baseline; font-size: var(--step--1); line-height: 1.5; }
-  .source { font-size: var(--step--1); color: var(--c-ink-soft); }
+  .notes .pin { background: #d6105a; color: #fff; }
+  .source { font-size: var(--step--1); font-weight: 600; color: var(--c-note-ink); text-decoration-color: #d6105a; }
 
   @keyframes draw { to { stroke-dashoffset: 0; } }
   @keyframes appear { to { opacity: 1; } }

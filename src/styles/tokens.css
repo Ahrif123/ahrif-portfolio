@@ -1,14 +1,37 @@
-/* Design tokens: change the look of the whole site from this one file */
+/* Design tokens: change the look of the whole site from this one file.
+   Light theme = "Studio blue", dark theme = "Night review". */
 :root {
-  /* Color */
-  --c-canvas: #eef1f4;      /* page background: cool review-board gray */
-  --c-surface: #ffffff;     /* panels and cards */
-  --c-ink: #1a2238;         /* main text: navy ink */
-  --c-ink-soft: #4a5468;    /* secondary text */
-  --c-line: #cbd2dc;        /* borders */
-  --c-markup: #d6105a;      /* reviewer's markup pen: the one accent */
+  color-scheme: light;
+
+  /* Base */
+  --c-canvas: #f4f7fd;      /* page background, a hint of blue */
+  --c-band: #e4ecfa;        /* alternating section bands */
+  --c-surface: #ffffff;     /* cards and panels */
+  --c-ink: #14203f;         /* main text: deep studio blue */
+  --c-ink-soft: #46557a;    /* secondary text */
+  --c-line: #c9d5ec;        /* borders */
+
+  /* Accents: never more than two visible together */
+  --c-markup: #d6105a;      /* the reviewer's pen */
+  --c-on-markup: #ffffff;   /* text on top of the pen color */
+  --c-sky: #1f6bd1;         /* second accent: "built" */
   --c-pass: #127a4f;        /* status: passed / fixed */
   --c-highlight: #ffe45c;   /* highlighter */
+  --c-note: #fff1a1;        /* sticky notes */
+  --c-note-ink: #2a2a33;
+
+  /* Footer */
+  --c-footer: #0f1a3a;
+  --c-footer-ink: #eef2ff;
+
+  /* Hero panel (glows like the photo backdrop) */
+  --hero-bg: #10214d;
+  --hero-glow-1: #2f62c4;
+  --hero-glow-2: rgb(214 16 90 / 0.28);
+  --hero-ink: #f1f5ff;
+  --hero-ink-soft: #bccaea;
+  --hero-line: rgb(255 255 255 / 0.18);
+  --hero-pass: #5ee0a6;
 
   /* Type */
   --font-display: 'Familjen Grotesk Variable', system-ui, sans-serif;
@@ -33,25 +56,68 @@
   --space-xl: 2.5rem;
   --space-2xl: clamp(3rem, 2rem + 5vw, 6rem);
 
-  /* Shape: small radius for controls, larger for panels (shows hierarchy) */
+  /* Shape */
   --radius-s: 6px;
   --radius-l: 14px;
 
   /* Layout */
   --container: 72rem;
-  --measure: 65ch;          /* comfortable line length for reading */
+  --measure: 65ch;
   --gutter: clamp(1rem, 0.5rem + 2.5vw, 2rem);
 }
 
+/* "Night review": chosen with the toggle */
+:root[data-theme='dark'] {
+  color-scheme: dark;
+  --c-canvas: #0d1130;
+  --c-band: #121741;
+  --c-surface: #182052;
+  --c-ink: #eaedff;
+  --c-ink-soft: #a9b1dc;
+  --c-line: #2b3470;
+  --c-markup: #ff4f9a;
+  --c-on-markup: #1b0a13;
+  --c-sky: #4cc9f0;
+  --c-pass: #3ddc97;
+  --c-highlight: #ffd84d;
+  --c-note: #ffe27a;
+  --c-note-ink: #26232b;
+  --c-footer: #080b22;
+  --c-footer-ink: #eaedff;
+  --hero-bg: #141a4f;
+  --hero-glow-1: rgb(76 201 240 / 0.35);
+  --hero-glow-2: rgb(255 79 154 / 0.35);
+  --hero-ink: #f1f3ff;
+  --hero-ink-soft: #b9c0ea;
+  --hero-line: rgb(255 255 255 / 0.16);
+  --hero-pass: #3ddc97;
+}
+
+/* Same dark theme for visitors without JavaScript whose system is in dark mode */
 @media (prefers-color-scheme: dark) {
-  :root {
-    --c-canvas: #12161f;
-    --c-surface: #1a2030;
-    --c-ink: #e8ecf3;
-    --c-ink-soft: #a3adbf;
-    --c-line: #2e3648;
-    --c-markup: #ff4d8d;
-    --c-pass: #3ccb8a;
-    --c-highlight: #e8c93a;
+  :root:not([data-theme]) {
+    color-scheme: dark;
+    --c-canvas: #0d1130;
+    --c-band: #121741;
+    --c-surface: #182052;
+    --c-ink: #eaedff;
+    --c-ink-soft: #a9b1dc;
+    --c-line: #2b3470;
+    --c-markup: #ff4f9a;
+    --c-on-markup: #1b0a13;
+    --c-sky: #4cc9f0;
+    --c-pass: #3ddc97;
+    --c-highlight: #ffd84d;
+    --c-note: #ffe27a;
+    --c-note-ink: #26232b;
+    --c-footer: #080b22;
+    --c-footer-ink: #eaedff;
+    --hero-bg: #141a4f;
+    --hero-glow-1: rgb(76 201 240 / 0.35);
+    --hero-glow-2: rgb(255 79 154 / 0.35);
+    --hero-ink: #f1f3ff;
+    --hero-ink-soft: #b9c0ea;
+    --hero-line: rgb(255 255 255 / 0.16);
+    --hero-pass: #3ddc97;
   }
 }
