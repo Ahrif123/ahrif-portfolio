@@ -1,0 +1,128 @@
+---
+import '@fontsource-variable/familjen-grotesk';
+import '@fontsource-variable/atkinson-hyperlegible-next';
+import '@fontsource-variable/caveat';
+import '../styles/global.css';
+import { site } from '../data/site';
+
+const host = new URL(site.url).host;
+---
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="robots" content="noindex" />
+    <title>Share image</title>
+  </head>
+  <body>
+    <div class="card">
+      <div class="text">
+        <p class="name">Ahrif Hajjie Cruz</p>
+        <p class="role">QA tester who also builds the front end.</p>
+        <p class="url">{host}</p>
+      </div>
+      <div class="board" aria-hidden="true">
+        <div class="row">
+          <span>Reply</span>
+          <span class="bug">Delete</span>
+          <svg viewBox="0 0 220 80" preserveAspectRatio="none">
+            <path d="M24 44 C18 18 110 6 186 16 C214 22 216 56 182 66 C122 78 34 74 14 52 C6 40 34 22 70 18" />
+          </svg>
+          <span class="pin">1</span>
+        </div>
+        <p class="note">3px low!</p>
+      </div>
+    </div>
+  </body>
+</html>
+
+<style>
+  body { margin: 0; }
+  .card {
+    box-sizing: border-box;
+    width: 1200px;
+    height: 630px;
+    padding: 72px 80px;
+    display: grid;
+    grid-template-columns: 1.3fr 1fr;
+    align-items: center;
+    gap: 56px;
+    background: #eef1f4;
+    color: #1a2238;
+  }
+  .name {
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: 84px;
+    line-height: 1;
+    letter-spacing: -0.02em;
+    max-width: none;
+  }
+  .role {
+    margin-top: 28px;
+    font-family: var(--font-display);
+    font-size: 36px;
+    line-height: 1.2;
+    color: #4a5468;
+    max-width: none;
+  }
+  .url { margin-top: 56px; font-size: 24px; color: #4a5468; max-width: none; }
+
+  .board {
+    height: 380px;
+    display: grid;
+    place-content: center;
+    justify-items: center;
+    border: 2px solid #cbd2dc;
+    border-radius: 20px;
+    background-color: #fff;
+    background-image: radial-gradient(rgba(26, 34, 56, 0.14) 1.5px, transparent 1.5px);
+    background-size: 22px 22px;
+  }
+  .row {
+    position: relative;
+    display: inline-flex;
+    align-items: flex-start;
+    gap: 28px;
+    font-size: 34px;
+    color: #4a5468;
+  }
+  .bug { transform: translateY(5px); text-decoration: underline; }
+  svg {
+    position: absolute;
+    inset: -26px -40px;
+    width: calc(100% + 80px);
+    height: calc(100% + 52px);
+    max-width: none;
+    overflow: visible;
+  }
+  path {
+    fill: none;
+    stroke: #d6105a;
+    stroke-width: 4;
+    stroke-linecap: round;
+    vector-effect: non-scaling-stroke;
+  }
+  .pin {
+    position: absolute;
+    top: -62px;
+    left: 64px;
+    width: 36px;
+    height: 36px;
+    display: grid;
+    place-items: center;
+    border-radius: 50%;
+    background: #d6105a;
+    color: #fff;
+    font-size: 18px;
+    font-weight: 700;
+  }
+  .note {
+    margin-top: 44px;
+    font-family: var(--font-hand);
+    font-size: 46px;
+    color: #d6105a;
+    transform: rotate(-6deg);
+    max-width: none;
+  }
+</style>
