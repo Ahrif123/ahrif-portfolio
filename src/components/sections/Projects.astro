@@ -1,53 +1,171 @@
 ---
-import { projects } from '../../data/projects';
----
-<section class="projects container" aria-labelledby="projects-title">
-  <h2 id="projects-title">Other projects</h2>
-  <p class="intro">Small tools I built for the work I do as a tester.</p>
+import { Image } from 'astro:assets';
+import testfyHome from '../../assets/images/testfy-home.png';
 
-  <ul class="list">
-    {projects.map((p) => (
-      <li class="item">
-        <div class="text">
-          <h3>
-            <a href={p.url} target="_blank" rel="noopener">
-              {p.name}<span class="sr-only"> (opens in a new tab)</span>
-            </a>
-          </h3>
-          <p>{p.summary}</p>
+const LIVE_URL = 'https://testfy-mu.vercel.app'; // ← replace with your real Testfy link
+const REPO_URL = 'https://github.com/Ahrif123/testfy';
+
+const built = [
+  'React, TypeScript and Tailwind CSS on Vite',
+  'Test cases with module, sub-module, scenario and expected results, plus auto-numbered steps',
+  'Test runs with Pass/Fail per step, screenshots and separate Actual Result and QA Remarks fields',
+  'One-click Word reports for a single test case or a whole module, with tester, date, build and browser in the header',
+];
+
+const why = [
+  'Rebuilds the Excel and Word test documentation flow I used every day at DAI',
+  'Screenshots sit inside each step of the report, the way QA leads review evidence',
+  'Passwords are masked in exported reports by default, so test credentials never leak',
+];
+---
+<section id="testfy" class="projects container" aria-labelledby="projects-title">
+  <header class="section-head">
+    <h2 id="projects-title">A tool I built for QA work</h2>
+    <p>The test case manager I wished I had at work, built from the format I used every day.</p>
+  </header>
+
+  <article class="feature">
+    <div class="info">
+      <h3><a href={LIVE_URL} target="_blank" rel="noopener">Testfy<span class="sr-only"> (opens in a new tab)</span></a></h3>
+      <p class="lede">
+        A manual test case manager: write test cases with numbered steps, run
+        them with Pass/Fail evidence, and export a ready-to-send Word report.
+      </p>
+
+      <div class="split">
+        <div>
+          <h4>What I built</h4>
+          <ul class="built">{built.map((item) => <li>{item}</li>)}</ul>
         </div>
-        <ul class="tech" aria-label="Built with">
-          {p.tech.map((t) => <li>{t}</li>)}
-        </ul>
-      </li>
-    ))}
-  </ul>
+        <div>
+          <h4>Why it works for QA</h4>
+          <ul class="why">{why.map((item) => <li>{item}</li>)}</ul>
+        </div>
+      </div>
+
+      <div class="cta">
+        <a class="btn btn-primary" href={LIVE_URL} target="_blank" rel="noopener">
+          Try Testfy<span class="sr-only"> (opens in a new tab)</span>
+        </a>
+        <a class="btn" href={REPO_URL} target="_blank" rel="noopener">
+          View the code<span class="sr-only"> (opens in a new tab)</span>
+        </a>
+      </div>
+    </div>
+
+    <div class="shot">
+      <div class="frame">
+        <div class="frame-bar" aria-hidden="true">{new URL(LIVE_URL).host}</div>
+        <Image
+          src={testfyHome}
+          alt="Testfy showing a list of test cases with their module and last status"
+          widths={[480, 800, 1200, 1600]}
+          sizes="(min-width: 60rem) 40rem, 100vw"
+          loading="lazy"
+        />
+      </div>
+      <p class="scribble" aria-hidden="true">
+        <svg viewBox="0 0 40 30"><path d="M34 26 C20 24 10 16 8 4 M3 10 L8 3 L13 9" /></svg>
+        my DAI workflow, as an app
+      </p>
+    </div>
+  </article>
 </section>
 
 <style>
-  .projects { display: grid; gap: var(--space-m); padding-block: var(--space-2xl); }
-  .intro { color: var(--c-ink-soft); }
-  .list { list-style: none; padding: 0; margin-top: var(--space-m); border-top: 1px solid var(--c-line); }
-  .item {
+  .projects {
     display: grid;
-    gap: var(--space-s);
-    padding-block: var(--space-l);
-    border-bottom: 1px solid var(--c-line);
+    gap: var(--space-xl);
+    padding-block: var(--space-2xl);
+    scroll-margin-top: 4rem;
   }
-  @media (min-width: 48rem) {
-    .item { grid-template-columns: 1fr auto; align-items: start; gap: var(--space-xl); }
+  .section-head { display: grid; gap: var(--space-s); }
+  .section-head p { color: var(--c-ink-soft); }
+
+  /* Mirrored layout: text left, screenshot right */
+  .feature { display: grid; gap: var(--space-xl); }
+  @media (min-width: 60rem) {
+    .feature { grid-template-columns: 1fr 1.25fr; gap: var(--space-2xl); align-items: start; }
+    .shot { position: sticky; top: 6rem; }
   }
-  h3 { font-size: var(--step-1); margin-bottom: var(--space-2xs); }
-  h3 a { text-decoration: none; }
-  h3 a:hover { text-decoration: underline; text-decoration-color: var(--c-markup); }
-  .text p { color: var(--c-ink-soft); font-size: var(--step--1); }
-  .tech { list-style: none; padding: 0; display: flex; flex-wrap: wrap; gap: var(--space-xs); }
-  .tech li {
-    font-size: var(--step--1);
-    padding: 0.15rem 0.6rem;
+
+  .frame {
+    overflow: hidden;
+    background: var(--c-canvas);
     border: 1px solid var(--c-line);
-    border-radius: var(--radius-s);
-    background: var(--c-surface);
-    white-space: nowrap;
+    border-radius: var(--radius-l);
+    box-shadow: 0 24px 48px -28px rgb(26 34 56 / 0.5);
+  }
+  .frame-bar {
+    padding: var(--space-xs) var(--space-m);
+    border-bottom: 1px solid var(--c-line);
+    font-size: var(--step--1);
+    color: var(--c-ink-soft);
+  }
+  .frame :global(img) {
+    width: 100%;
+    aspect-ratio: 16 / 10;
+    object-fit: cover;
+    object-position: top left;
+    transition: transform 0.6s cubic-bezier(0.22, 1, 0.36, 1);
+  }
+  .frame:hover :global(img) { transform: scale(1.03); }
+
+  .scribble {
+    display: flex;
+    align-items: flex-start;
+    gap: var(--space-xs);
+    width: fit-content;
+    margin: var(--space-s) 0 0 auto;
+    font-family: var(--font-hand);
+    font-size: var(--step-2);
+    line-height: 1;
+    color: var(--c-markup);
+    transform: rotate(-3deg);
+    max-width: none;
+  }
+  .scribble svg {
+    width: 2.2rem;
+    height: 1.7rem;
+    fill: none;
+    stroke: currentColor;
+    stroke-width: 2;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+  }
+
+  .info { display: grid; gap: var(--space-l); }
+  h3 { font-size: var(--step-4); }
+  h3 a { text-decoration: none; }
+  h3 a:hover { text-decoration: underline; text-decoration-color: var(--c-markup); text-decoration-thickness: 3px; }
+  .lede { font-size: var(--step-1); color: var(--c-ink-soft); }
+
+  .split { display: grid; gap: var(--space-l); }
+  @media (min-width: 36rem) and (max-width: 59.99rem) {
+    .split { grid-template-columns: 1fr 1fr; }
+  }
+  h4 { font-family: var(--font-display); font-size: var(--step-1); margin-bottom: var(--space-xs); }
+
+  .split ul { list-style: none; padding: 0; display: grid; gap: var(--space-s); }
+  .split li { position: relative; padding-left: 1.2rem; }
+  .split li::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 0.6em;
+    width: 0.5rem;
+    height: 0.5rem;
+    border-radius: 50%;
+  }
+  .built li::before { background: var(--c-sky); }
+  .why li::before { background: var(--c-markup); }
+
+  .cta { display: grid; gap: var(--space-s); }
+  @media (min-width: 30rem) {
+    .cta { display: flex; flex-wrap: wrap; }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .frame:hover :global(img) { transform: none; }
   }
 </style>

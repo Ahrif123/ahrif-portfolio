@@ -13,6 +13,7 @@ pipeline that runs the tests on every push.
 - **Homepage:** experience, featured project and contact details
 - **[QA samples](https://ahrif-portfolio.vercel.app/qa):** a 21-case test suite (Excel) and bug reports written in the format I used on an HRIS platform
 - **[MUSÉA case study](https://ahrif-portfolio.vercel.app/work/musea):** an art community I built and then tested like a client product
+- **[Testfy](https://github.com/Ahrif123/testfy):** a manual test case manager (React + TypeScript) that rebuilds my day-to-day QA documentation workflow
 
 ## How it's tested
 
