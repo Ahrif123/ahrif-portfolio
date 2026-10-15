@@ -12,7 +12,7 @@ export const site = {
   location: { city: 'General Trias', region: 'Cavite', country: 'PH' },
   socials: {
     github: 'https://github.com/Ahrif123',
-    linkedin: '', // add your LinkedIn URL
+    linkedin: 'https://www.linkedin.com/in/ahrif-hajjie-cruz-018540334/',
   },
   skills: ['Manual testing', 'Test case design', 'Playwright', 'TypeScript', 'Jira', 'Regression testing'],
 };
