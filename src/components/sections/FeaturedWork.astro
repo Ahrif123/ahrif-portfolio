@@ -17,26 +17,34 @@ const tested = [
 ];
 ---
 <section id="work" class="work container" aria-labelledby="work-title">
-  <h2 id="work-title">Selected work</h2>
+  <header class="section-head">
+    <h2 id="work-title">Featured project</h2>
+    <p>The project I'm proudest of, shown from both sides: how I built it and how I tested it.</p>
+  </header>
 
   <article class="feature">
-    <div class="frame">
-      <div class="frame-bar" aria-hidden="true">musea-eta.vercel.app</div>
-      <Image
-        src={museaHome}
-        alt="MUSÉA homepage showing trending artworks and popular artists"
-        widths={[480, 800, 1200]}
-        sizes="(min-width: 60rem) 36rem, 100vw"
-        loading="lazy"
-      />
+    <div class="shot">
+      <div class="frame">
+        <div class="frame-bar" aria-hidden="true">musea-eta.vercel.app</div>
+        <Image
+          src={museaHome}
+          alt="MUSÉA homepage showing an artwork feed and calls to share art"
+          widths={[480, 800, 1200, 1600]}
+          sizes="(min-width: 60rem) 40rem, 100vw"
+          loading="lazy"
+        />
+      </div>
+      <p class="scribble" aria-hidden="true">
+        <svg viewBox="0 0 40 30"><path d="M34 26 C20 24 10 16 8 4 M3 10 L8 3 L13 9" /></svg>
+        built it, then tried to break it
+      </p>
     </div>
 
     <div class="info">
       <h3><a href="/work/musea">MUSÉA</a></h3>
       <p class="lede">
         An art community where artists post their work, get ratings and
-        feedback, and compete in weekly challenges. I built it, then tested it
-        the way I'd test a client's product.
+        feedback, and compete in weekly challenges.
       </p>
 
       <div class="split">
@@ -67,18 +75,21 @@ const tested = [
     padding-block: var(--space-2xl);
     scroll-margin-top: 4rem;
   }
+  .section-head { display: grid; gap: var(--space-s); }
+  .section-head p { color: var(--c-ink-soft); }
 
   .feature { display: grid; gap: var(--space-xl); }
   @media (min-width: 60rem) {
-    .feature { grid-template-columns: 1.15fr 1fr; align-items: start; }
+    .feature { grid-template-columns: 1.25fr 1fr; gap: var(--space-2xl); align-items: start; }
   }
 
   /* Screenshot in a simple browser frame */
   .frame {
+    overflow: hidden;
+    background: var(--c-canvas);
     border: 1px solid var(--c-line);
     border-radius: var(--radius-l);
-    overflow: hidden;
-    background: var(--c-surface);
+    box-shadow: 0 24px 48px -28px rgb(26 34 56 / 0.5);
   }
   .frame-bar {
     padding: var(--space-xs) var(--space-m);
@@ -88,31 +99,59 @@ const tested = [
   }
   .frame :global(img) { width: 100%; aspect-ratio: 16 / 10; object-fit: cover; object-position: top; }
 
-  .info { display: grid; gap: var(--space-l); }
-  h3 { font-size: var(--step-3); }
-  h3 a { text-decoration: none; }
-  h3 a:hover { text-decoration: underline; text-decoration-color: var(--c-markup); }
-  .lede { color: var(--c-ink-soft); }
+  /* Handwritten note under the screenshot */
+  .scribble {
+    display: flex;
+    align-items: flex-start;
+    gap: var(--space-xs);
+    width: fit-content;
+    margin: var(--space-s) 0 0 auto;
+    font-family: var(--font-hand);
+    font-size: var(--step-2);
+    line-height: 1;
+    color: var(--c-markup);
+    transform: rotate(-3deg);
+    max-width: none;
+  }
+  .scribble svg {
+    width: 2.2rem;
+    height: 1.7rem;
+    fill: none;
+    stroke: currentColor;
+    stroke-width: 2;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+  }
 
+  .info { display: grid; gap: var(--space-l); }
+  h3 { font-size: var(--step-4); }
+  h3 a { text-decoration: none; }
+  h3 a:hover { text-decoration: underline; text-decoration-color: var(--c-markup); text-decoration-thickness: 3px; }
+  .lede { font-size: var(--step-1); color: var(--c-ink-soft); }
+
+  /* Two lists side by side only when there's room (tablets); stacked on phones and in the desktop side column */
   .split { display: grid; gap: var(--space-l); }
-  @media (min-width: 36rem) {
+  @media (min-width: 36rem) and (max-width: 59.99rem) {
     .split { grid-template-columns: 1fr 1fr; }
   }
-  h4 { font-family: var(--font-display); font-size: var(--step-0); margin-bottom: var(--space-xs); }
+  h4 { font-family: var(--font-display); font-size: var(--step-1); margin-bottom: var(--space-xs); }
 
-  .split ul { list-style: none; padding: 0; display: grid; gap: var(--space-s); font-size: var(--step--1); }
-  .split li { position: relative; padding-left: 1.1rem; }
+  .split ul { list-style: none; padding: 0; display: grid; gap: var(--space-s); }
+  .split li { position: relative; padding-left: 1.2rem; }
   .split li::before {
     content: '';
     position: absolute;
     left: 0;
-    top: 0.55em;
-    width: 0.45rem;
-    height: 0.45rem;
+    top: 0.6em;
+    width: 0.5rem;
+    height: 0.5rem;
     border-radius: 50%;
   }
   .built li::before { background: var(--c-ink); }
   .tested li::before { background: var(--c-markup); } /* same color as the markup layer */
 
-  .cta { display: flex; flex-wrap: wrap; gap: var(--space-s); }
+  .cta { display: grid; gap: var(--space-s); }
+  @media (min-width: 30rem) {
+    .cta { display: flex; flex-wrap: wrap; }
+  }
 </style>
