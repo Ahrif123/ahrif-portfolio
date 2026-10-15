@@ -2,4 +2,4 @@ User-agent: *
 Allow: /
 Disallow: /og
 
-Sitemap: https://ahrifcruz.vercel.app/sitemap-index.xml
+Sitemap: https://ahrif-portfolio.vercel.app/sitemap-index.xml

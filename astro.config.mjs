@@ -6,7 +6,7 @@ import sitemap from '@astrojs/sitemap';
 
 export default defineConfig({
   // Change this once you know your Vercel URL
-  site: 'https://ahrifcruz.vercel.app',
+  site: 'https://ahrif-portfolio.vercel.app',
   integrations: [
     react(),
     mdx(),

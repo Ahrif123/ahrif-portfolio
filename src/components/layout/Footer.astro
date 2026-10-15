@@ -9,6 +9,7 @@ const repo = 'https://github.com/Ahrif123/ahrif-portfolio';
       <h2>Looking for a QA tester?</h2>
       <p>I'm open to QA roles, on-site in Cavite or Metro Manila, or remote.</p>
       <a class="email" href={`mailto:${site.email}`}>{site.email}</a>
+      <a class="phone" href={`tel:${site.phoneHref}`}>{site.phone}</a>
     </div>
 
     <ul class="links">
@@ -42,6 +43,7 @@ const repo = 'https://github.com/Ahrif123/ahrif-portfolio';
     text-decoration-thickness: 2px;
     word-break: break-word;
   }
+    .phone { font-size: var(--step-1); text-decoration-color: var(--c-markup); width: fit-content; }
   .links { list-style: none; padding: 0; display: flex; flex-wrap: wrap; gap: var(--space-l); }
   .meta {
     font-size: var(--step--1);
