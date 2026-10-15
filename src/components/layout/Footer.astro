@@ -1,0 +1,54 @@
+---
+import { site } from '../../data/site';
+const year = new Date().getFullYear();
+const repo = 'https://github.com/ahrifhajjiercruz-tech/ahrif-portfolio';
+---
+<footer class="site-footer" id="contact">
+  <div class="container inner">
+    <div class="pitch">
+      <h2>Looking for a QA tester?</h2>
+      <p>I'm open to QA roles, on-site in Cavite or Metro Manila, or remote.</p>
+      <a class="email" href={`mailto:${site.email}`}>{site.email}</a>
+    </div>
+
+    <ul class="links">
+      <li><a href={site.socials.github} rel="me">GitHub</a></li>
+      {site.socials.linkedin && <li><a href={site.socials.linkedin} rel="me">LinkedIn</a></li>}
+      <li><a href={site.resume} download>Resume (PDF)</a></li>
+    </ul>
+
+    <p class="meta">
+      © {year} {site.name}. Built with Astro.
+      <a href={`${repo}/actions`}>Tested with Playwright on every push.</a>
+    </p>
+  </div>
+</footer>
+
+<style>
+  .site-footer {
+    margin-top: var(--space-2xl);
+    background: var(--c-ink);
+    color: var(--c-canvas);
+    padding-block: var(--space-2xl) var(--space-xl);
+  }
+  .inner { display: grid; gap: var(--space-xl); }
+  .pitch { display: grid; gap: var(--space-s); }
+  .pitch p { opacity: 0.8; }
+  .email {
+    font-family: var(--font-display);
+    font-size: var(--step-2);
+    font-weight: 600;
+    text-decoration-color: var(--c-markup);
+    text-decoration-thickness: 2px;
+    word-break: break-word;
+  }
+  .links { list-style: none; padding: 0; display: flex; flex-wrap: wrap; gap: var(--space-l); }
+  .meta {
+    font-size: var(--step--1);
+    opacity: 0.7;
+    border-top: 1px solid color-mix(in srgb, currentColor 20%, transparent);
+    padding-top: var(--space-l);
+    max-width: none;
+  }
+  .site-footer :focus-visible { outline-color: var(--c-highlight); }
+</style>

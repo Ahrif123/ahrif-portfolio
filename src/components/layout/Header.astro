@@ -1,0 +1,138 @@
+---
+import { site } from '../../data/site';
+
+const links = [
+  { href: '/#work', label: 'Work' },
+  { href: '/qa', label: 'QA samples' },
+  { href: '/#experience', label: 'Experience' },
+  { href: '/#contact', label: 'Contact' },
+];
+const path = Astro.url.pathname.replace(/\/$/, '') || '/';
+const isCurrent = (href: string) => !href.includes('#') && path === href;
+---
+<header class="site-header">
+  <div class="container bar">
+    <a class="brand" href="/">
+      <span class="mark" aria-hidden="true">AC</span>
+      <span>Ahrif Cruz</span>
+    </a>
+
+    <button class="menu-toggle" type="button" aria-expanded="false" aria-controls="site-nav">
+      <span class="sr-only">Open menu</span>
+      <svg width="24" height="24" viewBox="0 0 24 24" aria-hidden="true">
+        <path d="M4 7h16M4 12h16M4 17h16" stroke="currentColor" stroke-width="2" stroke-linecap="round" />
+      </svg>
+    </button>
+
+    <nav id="site-nav" aria-label="Main">
+      <ul>
+        {links.map((l) => (
+          <li><a href={l.href} aria-current={isCurrent(l.href) ? 'page' : undefined}>{l.label}</a></li>
+        ))}
+        <li><a class="resume" href={site.resume} download>Resume (PDF)</a></li>
+      </ul>
+    </nav>
+  </div>
+</header>
+
+<style>
+  .site-header {
+    position: sticky;
+    top: 0;
+    z-index: 50;
+    background: var(--c-canvas);
+    border-bottom: 1px solid var(--c-line);
+  }
+  .bar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    min-height: 4rem;
+  }
+  .brand {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-xs);
+    font-family: var(--font-display);
+    font-weight: 650;
+    text-decoration: none;
+  }
+  .mark {
+    display: grid;
+    place-items: center;
+    width: 2rem;
+    height: 2rem;
+    border-radius: var(--radius-s);
+    background: var(--c-ink);
+    color: var(--c-canvas);
+    font-size: 0.8rem;
+  }
+  ul { list-style: none; padding: 0; }
+  nav a {
+    display: block;
+    padding: var(--space-xs) var(--space-s);
+    text-decoration: none;
+    border-radius: var(--radius-s);
+  }
+  nav a:hover { color: var(--c-markup); }
+  nav a[aria-current='page'] {
+    text-decoration: underline;
+    text-decoration-color: var(--c-markup);
+    text-decoration-thickness: 2px;
+  }
+  .resume {
+    border: 1px solid var(--c-ink);
+    margin-left: var(--space-xs);
+  }
+  .resume:hover { background: var(--c-ink); color: var(--c-canvas); }
+
+  /* Mobile: menu button + dropdown panel */
+  .menu-toggle {
+    display: grid;
+    place-items: center;
+    width: 2.75rem;   /* 44px: comfortable touch target */
+    height: 2.75rem;
+    background: none;
+    border: 1px solid var(--c-line);
+    border-radius: var(--radius-s);
+    color: inherit;
+    cursor: pointer;
+  }
+  nav {
+    display: none;
+    position: absolute;
+    inset: 100% 0 auto 0;
+    background: var(--c-canvas);
+    border-bottom: 1px solid var(--c-line);
+    padding: var(--space-s) var(--gutter) var(--space-l);
+  }
+  nav.open { display: block; }
+  nav ul { display: grid; gap: var(--space-2xs); }
+  .resume { margin: var(--space-xs) 0 0; text-align: center; }
+
+  /* Desktop: inline menu, no button */
+  @media (min-width: 48rem) {
+    .menu-toggle { display: none; }
+    nav { display: block; position: static; padding: 0; border: 0; background: none; }
+    nav ul { display: flex; align-items: center; gap: var(--space-2xs); }
+    .resume { margin: 0 0 0 var(--space-xs); }
+  }
+</style>
+
+<script>
+  const button = document.querySelector<HTMLButtonElement>('.menu-toggle');
+  const nav = document.getElementById('site-nav');
+  const label = button?.querySelector('.sr-only');
+
+  function setOpen(open: boolean) {
+    button?.setAttribute('aria-expanded', String(open));
+    nav?.classList.toggle('open', open);
+    if (label) label.textContent = open ? 'Close menu' : 'Open menu';
+  }
+
+  button?.addEventListener('click', () => setOpen(button.getAttribute('aria-expanded') !== 'true'));
+  nav?.querySelectorAll('a').forEach((a) => a.addEventListener('click', () => setOpen(false)));
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape') { setOpen(false); button?.focus(); }
+  });
+</script>

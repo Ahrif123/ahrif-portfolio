@@ -1,0 +1,57 @@
+/* Design tokens: change the look of the whole site from this one file */
+:root {
+  /* Color */
+  --c-canvas: #eef1f4;      /* page background: cool review-board gray */
+  --c-surface: #ffffff;     /* panels and cards */
+  --c-ink: #1a2238;         /* main text: navy ink */
+  --c-ink-soft: #4a5468;    /* secondary text */
+  --c-line: #cbd2dc;        /* borders */
+  --c-markup: #d6105a;      /* reviewer's markup pen: the one accent */
+  --c-pass: #127a4f;        /* status: passed / fixed */
+  --c-highlight: #ffe45c;   /* highlighter */
+
+  /* Type */
+  --font-display: 'Familjen Grotesk Variable', system-ui, sans-serif;
+  --font-body: 'Atkinson Hyperlegible Next Variable', system-ui, sans-serif;
+  --font-hand: 'Caveat Variable', cursive;
+
+  /* Fluid type scale (ratio 1.25): grows smoothly from phone to desktop */
+  --step--1: clamp(0.84rem, 0.82rem + 0.1vw, 0.9rem);
+  --step-0: clamp(1rem, 0.97rem + 0.18vw, 1.0625rem);
+  --step-1: clamp(1.2rem, 1.13rem + 0.35vw, 1.4rem);
+  --step-2: clamp(1.44rem, 1.3rem + 0.7vw, 1.85rem);
+  --step-3: clamp(1.73rem, 1.48rem + 1.25vw, 2.5rem);
+  --step-4: clamp(2.07rem, 1.65rem + 2.1vw, 3.4rem);
+  --step-5: clamp(2.5rem, 1.8rem + 3.5vw, 4.6rem);
+
+  /* Spacing */
+  --space-2xs: 0.25rem;
+  --space-xs: 0.5rem;
+  --space-s: 0.75rem;
+  --space-m: 1rem;
+  --space-l: 1.5rem;
+  --space-xl: 2.5rem;
+  --space-2xl: clamp(3rem, 2rem + 5vw, 6rem);
+
+  /* Shape: small radius for controls, larger for panels (shows hierarchy) */
+  --radius-s: 6px;
+  --radius-l: 14px;
+
+  /* Layout */
+  --container: 72rem;
+  --measure: 65ch;          /* comfortable line length for reading */
+  --gutter: clamp(1rem, 0.5rem + 2.5vw, 2rem);
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --c-canvas: #12161f;
+    --c-surface: #1a2030;
+    --c-ink: #e8ecf3;
+    --c-ink-soft: #a3adbf;
+    --c-line: #2e3648;
+    --c-markup: #ff4d8d;
+    --c-pass: #3ccb8a;
+    --c-highlight: #e8c93a;
+  }
+}
