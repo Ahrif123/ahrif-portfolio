@@ -81,6 +81,8 @@ const tested = [
   .feature { display: grid; gap: var(--space-xl); }
   @media (min-width: 60rem) {
     .feature { grid-template-columns: 1.25fr 1fr; gap: var(--space-2xl); align-items: start; }
+    /* Desktop: the screenshot stays in view while you read the lists beside it */
+    .shot { position: sticky; top: 6rem; }
   }
 
   /* Screenshot in a simple browser frame */

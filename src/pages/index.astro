@@ -8,8 +8,15 @@ import Credentials from '../components/sections/Credentials.astro';
 ---
 <BaseLayout>
   <Hero />
-  <FeaturedWork />
+  <div class="band"><FeaturedWork /></div>
   <Experience />
-  <Projects />
-  <Credentials />
+  <div class="band">
+    <Projects />
+    <Credentials />
+  </div>
 </BaseLayout>
+
+<style>
+  /* Two sections sharing a band don't need double spacing between them */
+  .band :global(section + section) { padding-top: var(--space-m); }
+</style>
