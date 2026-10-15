@@ -1,5 +1,13 @@
 ---
+import { Image } from 'astro:assets';
+import portrait from '../../assets/images/ahrif.jpg';
 import { site } from '../../data/site';
+
+const proof = [
+  '6 months testing an HRIS platform',
+  'A 21-case test suite for MUSÉA',
+  '30 automated checks on every push',
+];
 ---
 <section class="hero container" aria-labelledby="hero-title">
   <div class="intro">
@@ -11,35 +19,54 @@ import { site } from '../../data/site';
       Playwright automation and building my own apps, like MUSÉA, an art
       community I built and tested end to end.
     </p>
+
     <div class="cta">
       <a class="btn btn-primary" href="/work/musea">Read the MUSÉA case study</a>
       <a class="btn" href={site.resume} download>Download resume</a>
     </div>
+
+    <ul class="proof">
+      {proof.map((item) => (
+        <li>
+          <svg viewBox="0 0 16 16" aria-hidden="true"><path d="M3 8.5l3 3 7-7" /></svg>
+          {item}
+        </li>
+      ))}
+    </ul>
+
     <p class="availability">
       <span class="status-dot" aria-hidden="true"></span>
       Open to QA roles in Cavite, Metro Manila or remote
     </p>
   </div>
 
-  <figure class="specimen">
-    <div class="board">
-      <!-- A rebuilt copy of the bug, so the markup has something real to point at -->
-      <div class="comment" aria-hidden="true">
-        <span class="avatar">M</span>
-        <div class="comment-body">
-          <p class="comment-meta"><strong>mika</strong> <span>Lv 2</span> <span>2 weeks ago</span></p>
-          <p class="comment-text">The light on the water is perfect.</p>
-          <span class="reaction">♥ 1</span>
-          <div class="comment-actions">
-            <span>Reply</span>
-            <span class="is-bug">Delete</span>
-            <span class="pin pin-1">1</span>
-            <span class="pin pin-2">2</span>
-            <svg class="circle" viewBox="0 0 220 80" preserveAspectRatio="none">
-              <path pathLength="1" d="M24 44 C18 18 110 6 186 16 C214 22 216 56 182 66 C122 78 34 74 14 52 C6 40 34 22 70 18" />
-            </svg>
-            <span class="scribble">3px low!</span>
-          </div>
+  <figure class="visual">
+    <Image
+      class="portrait"
+      src={portrait}
+      alt="Ahrif Hajjie Cruz, smiling, in a barong"
+      widths={[420, 640, 900]}
+      sizes="(min-width: 60rem) 28rem, 90vw"
+      loading="eager"
+      fetchpriority="high"
+    />
+
+    <!-- A rebuilt copy of a real bug, stuck on like a review note -->
+    <div class="comment" aria-hidden="true">
+      <span class="avatar">M</span>
+      <div class="comment-body">
+        <p class="comment-meta"><strong>mika</strong> <span>Lv 2</span> <span>2 weeks ago</span></p>
+        <p class="comment-text">The light on the water is perfect.</p>
+        <span class="reaction">♥ 1</span>
+        <div class="comment-actions">
+          <span>Reply</span>
+          <span class="is-bug">Delete</span>
+          <span class="pin pin-1">1</span>
+          <span class="pin pin-2">2</span>
+          <svg class="circle" viewBox="0 0 220 80" preserveAspectRatio="none">
+            <path pathLength="1" d="M24 44 C18 18 110 6 186 16 C214 22 216 56 182 66 C122 78 34 74 14 52 C6 40 34 22 70 18" />
+          </svg>
+          <span class="scribble">3px low!</span>
         </div>
       </div>
     </div>
@@ -58,55 +85,89 @@ import { site } from '../../data/site';
   .hero {
     display: grid;
     gap: var(--space-2xl);
-    padding-block: var(--space-2xl);
+    padding-block: var(--space-xl) var(--space-2xl);
   }
   @media (min-width: 60rem) {
-    .hero { grid-template-columns: 1.05fr 1fr; align-items: center; }
+    .hero {
+      grid-template-columns: 1.1fr 0.9fr;
+      align-items: center;
+      padding-block: var(--space-2xl);
+    }
   }
 
-  /* Intro */
+  /* ---------- Intro ---------- */
   .intro { display: grid; gap: var(--space-l); }
   h1 { overflow-wrap: anywhere; }
   .role {
+    margin-top: calc(-1 * var(--space-s));
     font-family: var(--font-display);
     font-size: var(--step-2);
     font-weight: 500;
     color: var(--c-ink-soft);
-    margin-top: calc(-1 * var(--space-s));
   }
   .summary { color: var(--c-ink-soft); }
-  .cta { display: flex; flex-wrap: wrap; gap: var(--space-s); }
+
+  .cta { display: grid; gap: var(--space-s); }
+  @media (min-width: 30rem) {
+    .cta { display: flex; flex-wrap: wrap; }
+  }
+
+  .proof { list-style: none; padding: 0; display: grid; gap: var(--space-xs); }
+  .proof li { display: flex; align-items: center; gap: var(--space-xs); }
+  .proof svg {
+    flex: none;
+    width: 1.1rem;
+    height: 1.1rem;
+    fill: none;
+    stroke: var(--c-pass);
+    stroke-width: 2.2;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+  }
+
   .availability {
     display: flex;
     align-items: center;
     gap: var(--space-xs);
+    padding-top: var(--space-m);
+    border-top: 1px solid var(--c-line);
     font-size: var(--step--1);
     color: var(--c-ink-soft);
   }
-  .status-dot { width: 0.6rem; height: 0.6rem; border-radius: 50%; background: var(--c-pass); flex: none; }
+  .status-dot { flex: none; width: 0.6rem; height: 0.6rem; border-radius: 50%; background: var(--c-pass); }
 
-  /* Review board: dotted canvas like a design-review tool */
-  .board {
-    position: relative;
-    padding: var(--space-2xl) var(--space-l);
-    border: 1px solid var(--c-line);
+  /* ---------- Photo + review note ---------- */
+  .visual {
+    width: 100%;
+    max-width: 30rem;
+    justify-self: center;
+  }
+  .visual :global(.portrait) {
+    width: 100%;
+    aspect-ratio: 4 / 5;
+    object-fit: cover;
+    object-position: 50% 22%;
     border-radius: var(--radius-l);
-    background-color: var(--c-surface);
-    background-image: radial-gradient(color-mix(in srgb, var(--c-ink) 14%, transparent) 1px, transparent 1px);
-    background-size: 18px 18px;
+    border: 1px solid var(--c-line);
   }
 
-  /* The rebuilt comment */
   .comment {
+    position: relative;
     display: flex;
     gap: var(--space-s);
-    max-width: 22rem;
+    width: min(94%, 23rem);
+    margin: -4.5rem 0 0 auto;     /* phones: overlaps the bottom-right of the photo */
     padding: var(--space-m) var(--space-l) var(--space-l);
-    background: var(--c-canvas);
+    background: var(--c-surface);
     border: 1px solid var(--c-line);
     border-radius: 12px;
+    box-shadow: 0 24px 48px -24px rgb(26 34 56 / 0.55);
     font-size: var(--step--1);
   }
+  @media (min-width: 60rem) {
+    .comment { margin: -7rem 0 0 -3.5rem; } /* desktop: hangs off the left edge of the photo */
+  }
+
   .avatar {
     display: grid; place-items: center; flex: none;
     width: 2.25rem; height: 2.25rem; border-radius: 50%;
@@ -117,8 +178,10 @@ import { site } from '../../data/site';
   .comment-meta strong { color: var(--c-ink); }
   .comment-text { font-size: var(--step-0); }
   .reaction {
-    padding: 0.1rem 0.6rem; border: 1px solid var(--c-line);
-    border-radius: 999px; background: var(--c-surface);
+    padding: 0.1rem 0.6rem;
+    border: 1px solid var(--c-line);
+    border-radius: 999px;
+    background: var(--c-canvas);
   }
 
   .comment-actions {
@@ -132,12 +195,12 @@ import { site } from '../../data/site';
   /* The bug, reproduced on purpose */
   .is-bug { transform: translateY(3px); text-decoration: underline; }
 
-  /* Markup layer */
+  /* ---------- Markup layer ---------- */
   .pin {
     display: inline-grid; place-items: center; flex: none;
     width: 1.35rem; height: 1.35rem; border-radius: 50%;
     background: var(--c-markup); color: #fff;
-    font-size: 0.72rem; font-weight: 700; font-family: var(--font-body);
+    font-family: var(--font-body); font-size: 0.72rem; font-weight: 700;
   }
   .comment-actions .pin { position: absolute; opacity: 0; animation: appear 0.3s ease-out 1.2s forwards; }
   .pin-1 { top: -1.6rem; left: 2.4rem; }
@@ -148,9 +211,9 @@ import { site } from '../../data/site';
     inset: -1.1rem -1.6rem;
     width: calc(100% + 3.2rem);
     height: calc(100% + 2.2rem);
+    max-width: none;
     overflow: visible;
     pointer-events: none;
-    max-width: none;
   }
   .circle path {
     fill: none;
@@ -160,30 +223,32 @@ import { site } from '../../data/site';
     vector-effect: non-scaling-stroke;
     stroke-dasharray: 1;
     stroke-dashoffset: 1;
-    animation: draw 0.9s ease-out 0.4s forwards;
+    animation: draw 0.9s ease-out 0.5s forwards;
   }
   .scribble {
     position: absolute;
-    left: calc(100% + 2.2rem);
-    top: -0.6rem;
+    left: calc(100% + 2rem);
+    top: -0.5rem;
     white-space: nowrap;
     font-family: var(--font-hand);
-    font-size: var(--step-2);
+    font-size: var(--step-1);
     color: var(--c-markup);
     transform: rotate(-6deg);
     opacity: 0;
     animation: appear 0.3s ease-out 1.2s forwards;
   }
+  @media (min-width: 40rem) {
+    .scribble { font-size: var(--step-2); }
+  }
 
-  figcaption { display: grid; gap: var(--space-s); margin-top: var(--space-l); }
+  figcaption { display: grid; gap: var(--space-s); margin-top: var(--space-xl); }
   .notes { list-style: none; padding: 0; display: grid; gap: var(--space-xs); }
-  .notes li { display: flex; gap: var(--space-xs); align-items: baseline; font-size: var(--step--1); }
+  .notes li { display: flex; gap: var(--space-xs); align-items: baseline; font-size: var(--step--1); line-height: 1.5; }
   .source { font-size: var(--step--1); color: var(--c-ink-soft); }
 
   @keyframes draw { to { stroke-dashoffset: 0; } }
   @keyframes appear { to { opacity: 1; } }
 
-  /* No motion? Show the finished markup straight away */
   @media (prefers-reduced-motion: reduce) {
     .circle path { stroke-dashoffset: 0; animation: none; }
     .comment-actions .pin, .scribble { opacity: 1; animation: none; }
