@@ -18,12 +18,17 @@ const isCurrent = (href: string) => !href.includes('#') && path === href;
     </a>
 
     <nav id="site-nav" aria-label="Main">
-      <ul>
+      <ul class="pill">
         {links.map((l) => (
-          <li><a href={l.href} aria-current={isCurrent(l.href) ? 'page' : undefined}>{l.label}</a></li>
+          <li>
+            <a class="nav-link" href={l.href} aria-current={isCurrent(l.href) ? 'page' : undefined}>{l.label}</a>
+          </li>
         ))}
-        <li><a class="resume" href={site.resume} download>Resume (PDF)</a></li>
       </ul>
+      <a class="resume" href={site.resume} download>
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 4v11M7 10l5 5 5-5M5 20h14" /></svg>
+        Resume
+      </a>
     </nav>
 
     <div class="controls">
@@ -54,8 +59,10 @@ const isCurrent = (href: string) => !href.includes('#') && path === href;
     display: flex;
     align-items: center;
     gap: var(--space-s);
-    min-height: 4rem;
+    min-height: 4.25rem;
   }
+
+  /* ---------- Brand ---------- */
   .brand {
     display: inline-flex;
     align-items: center;
@@ -68,38 +75,68 @@ const isCurrent = (href: string) => !href.includes('#') && path === href;
   .mark {
     display: grid;
     place-items: center;
-    width: 2rem;
-    height: 2rem;
-    border-radius: var(--radius-s);
+    width: 2.1rem;
+    height: 2.1rem;
+    border-radius: 10px;
+    background: linear-gradient(135deg, var(--c-sky), var(--c-markup));
+    color: #fff;
+    font-size: 0.8rem;
+    font-weight: 700;
+    box-shadow: 0 6px 14px -6px color-mix(in srgb, var(--c-markup) 70%, transparent);
+    transition: transform 0.3s var(--ease-out, ease);
+  }
+  .brand:hover .mark { transform: rotate(-8deg) scale(1.06); }
+
+  /* ---------- Links ---------- */
+  ul { list-style: none; padding: 0; }
+  .nav-link {
+    display: block;
+    padding: 0.5rem 0.95rem;
+    border-radius: 999px;
+    text-decoration: none;
+    font-weight: 500;
+    transition: background-color 0.25s, color 0.25s;
+  }
+  .nav-link:hover { background: var(--c-band); color: var(--c-ink); }
+  .nav-link.is-active,
+  .nav-link[aria-current='page'] {
     background: var(--c-ink);
     color: var(--c-canvas);
-    font-size: 0.8rem;
   }
 
-  ul { list-style: none; padding: 0; }
-  nav a {
-    display: block;
-    padding: var(--space-xs) var(--space-s);
+  .resume {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.4rem;
+    min-height: 2.6rem;
+    padding: 0 1.1rem;
+    border-radius: 999px;
+    background: var(--c-ink);
+    color: var(--c-canvas);
+    font-weight: 600;
     text-decoration: none;
-    border-radius: var(--radius-s);
+    transition: background-color 0.25s, transform 0.2s;
   }
-  nav a:hover { color: var(--c-markup); }
-  nav a[aria-current='page'] {
-    text-decoration: underline;
-    text-decoration-color: var(--c-markup);
-    text-decoration-thickness: 2px;
+  .resume:hover { background: var(--c-markup); color: #fff; transform: translateY(-1px); }
+  .resume svg {
+    width: 1.05rem;
+    height: 1.05rem;
+    fill: none;
+    stroke: currentColor;
+    stroke-width: 2.2;
+    stroke-linecap: round;
+    stroke-linejoin: round;
   }
-  .resume { border: 1px solid var(--c-ink); text-align: center; }
-  .resume:hover { background: var(--c-ink); color: var(--c-canvas); }
 
-  /* Round icon buttons: theme and menu */
+  /* ---------- Round icon buttons ---------- */
   .controls { display: flex; align-items: center; gap: var(--space-xs); }
   .icon-btn {
     display: grid;
     place-items: center;
-    width: 2.75rem;   /* 44px touch target */
+    width: 2.75rem;
     height: 2.75rem;
-    background: none;
+    background: var(--c-surface);
     border: 1px solid var(--c-line);
     border-radius: 999px;
     color: inherit;
@@ -121,25 +158,45 @@ const isCurrent = (href: string) => !href.includes('#') && path === href;
   :global(:root[data-theme='dark']) .icon-sun { display: block; }
   :global(:root[data-theme='dark']) .icon-moon { display: none; }
 
-  /* Mobile: dropdown panel */
+  /* ---------- Phone: menu opens as a floating card ---------- */
   nav {
     display: none;
     position: absolute;
-    inset: 100% 0 auto 0;
-    background: var(--c-canvas);
-    border-bottom: 1px solid var(--c-line);
-    padding: var(--space-s) var(--gutter) var(--space-l);
+    top: calc(100% + 0.5rem);
+    left: var(--gutter);
+    right: var(--gutter);
+    padding: var(--space-s);
+    background: var(--c-surface);
+    border: 1px solid var(--c-line);
+    border-radius: 18px;
+    box-shadow: 0 24px 48px -20px rgb(15 26 58 / 0.45);
   }
-  nav.open { display: block; }
-  nav ul { display: grid; gap: var(--space-2xs); }
-  .resume { margin-top: var(--space-xs); }
+  nav.open { display: grid; gap: var(--space-s); }
+  .pill { display: grid; gap: 2px; }
+  .nav-link { padding: 0.75rem 1rem; }
 
-  /* Desktop: menu inline, then the theme button */
+  /* ---------- Desktop: links in a pill bar ---------- */
   @media (min-width: 48rem) {
     .menu-toggle { display: none; }
-    nav { display: block; position: static; padding: 0; border: 0; background: none; }
-    nav ul { display: flex; align-items: center; gap: var(--space-2xs); }
-    .resume { margin: 0 0 0 var(--space-xs); }
+    nav {
+      display: flex;
+      align-items: center;
+      gap: var(--space-s);
+      position: static;
+      padding: 0;
+      background: none;
+      border: 0;
+      box-shadow: none;
+    }
+    .pill {
+      display: flex;
+      gap: 2px;
+      padding: 4px;
+      border: 1px solid var(--c-line);
+      border-radius: 999px;
+      background: color-mix(in srgb, var(--c-surface) 75%, transparent);
+    }
+    .nav-link { padding: 0.45rem 0.95rem; }
   }
 </style>
 
@@ -173,11 +230,30 @@ const isCurrent = (href: string) => !href.includes('#') && path === href;
       root.dataset.theme === 'dark' ? 'Switch to light theme' : 'Switch to dark theme',
     );
   updateThemeLabel();
-
   themeButton?.addEventListener('click', () => {
     const next = root.dataset.theme === 'dark' ? 'light' : 'dark';
     root.dataset.theme = next;
     try { localStorage.setItem('theme', next); } catch {}
     updateThemeLabel();
   });
+
+  // ---------- Highlight the section you're reading (homepage only) ----------
+  const sectionLinks = [...document.querySelectorAll<HTMLAnchorElement>('.nav-link[href^="/#"]')];
+  if (location.pathname === '/' && sectionLinks.length) {
+    const byId = new Map(sectionLinks.map((a) => [a.getAttribute('href')!.slice(2), a]));
+    const spy = new IntersectionObserver(
+      (entries) => {
+        for (const entry of entries) {
+          if (!entry.isIntersecting) continue;
+          sectionLinks.forEach((a) => a.classList.remove('is-active'));
+          byId.get(entry.target.id)?.classList.add('is-active');
+        }
+      },
+      { rootMargin: '-45% 0px -50% 0px' },
+    );
+    byId.forEach((_, id) => {
+      const section = document.getElementById(id);
+      if (section) spy.observe(section);
+    });
+  }
 </script>

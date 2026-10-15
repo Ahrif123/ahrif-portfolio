@@ -197,7 +197,7 @@ article.bug:hover, article.doc:hover {
   *, *::before, *::after { animation-delay: 0s !important; transition-delay: 0s !important; }
   .js .role::before, .js .role .what::before { transform: none; }
   .work .frame:hover img { transform: none; object-position: top; }
-  .btn:hover { transform: none; }
+    .dot { animation: none !important; }
 }
 
 /* =========================================================
@@ -227,3 +227,34 @@ mark {
 @media (min-width: 48rem) {
   .role:first-child .what::before { background: var(--c-sky); }
 }
+/* =========================================================
+   Atmosphere: soft glows and a faint review-board dot grid
+   that stay behind the page while you scroll
+   ========================================================= */
+body { position: relative; isolation: isolate; }
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  background:
+    radial-gradient(42rem 32rem at 100% 0%, color-mix(in srgb, var(--c-sky) 16%, transparent), transparent 70%),
+    radial-gradient(38rem 30rem at 0% 65%, color-mix(in srgb, var(--c-markup) 11%, transparent), transparent 70%),
+    radial-gradient(color-mix(in srgb, var(--c-ink) 9%, transparent) 1px, transparent 1px) 0 0 / 22px 22px;
+}
+
+/* Bands let the glow show through a little */
+.band {
+  background: color-mix(in srgb, var(--c-band) 72%, transparent);
+  border-color: color-mix(in srgb, var(--c-line) 70%, transparent);
+}
+
+/* The old underline effect on menu links is replaced by the pill bar */
+.site-header nav a:not(.resume) { background-image: none; }
+
+/* Hero name: fits on two balanced lines inside the panel */
+.hero h1 { font-size: clamp(2.3rem, 1.5rem + 3vw, 4.1rem); }
+
+/* Footer: no frosted-header styles leaking in, and the heading keeps no marker stroke */
+.site-footer h2::after { content: none; }
