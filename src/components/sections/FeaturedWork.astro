@@ -1,0 +1,118 @@
+---
+import { Image } from 'astro:assets';
+import museaHome from '../../assets/images/musea-home.png';
+
+const built = [
+  'Next.js 16 and TypeScript front end, with light and dark mode',
+  'Supabase back end where ratings, XP and moderation rules run inside Postgres, protected by row-level security',
+  'Scheduled jobs that rank trending art every 15 minutes',
+  'Uploads resized and stripped of GPS data in the browser before they leave the device',
+];
+
+const tested = [
+  'A test plan and step-by-step test cases in the format I used at DAI',
+  'A bug log with before-and-after screenshots for every fix',
+  "Security checks, like confirming one user can't edit another user's artwork",
+  'Playwright tests for sign-up, upload and search',
+];
+---
+<section id="work" class="work container" aria-labelledby="work-title">
+  <h2 id="work-title">Selected work</h2>
+
+  <article class="feature">
+    <div class="frame">
+      <div class="frame-bar" aria-hidden="true">musea-eta.vercel.app</div>
+      <Image
+        src={museaHome}
+        alt="MUSÉA homepage showing trending artworks and popular artists"
+        widths={[480, 800, 1200]}
+        sizes="(min-width: 60rem) 36rem, 100vw"
+        loading="lazy"
+      />
+    </div>
+
+    <div class="info">
+      <h3><a href="/work/musea">MUSÉA</a></h3>
+      <p class="lede">
+        An art community where artists post their work, get ratings and
+        feedback, and compete in weekly challenges. I built it, then tested it
+        the way I'd test a client's product.
+      </p>
+
+      <div class="split">
+        <div>
+          <h4>What I built</h4>
+          <ul class="built">{built.map((item) => <li>{item}</li>)}</ul>
+        </div>
+        <div>
+          <h4>How I tested it</h4>
+          <ul class="tested">{tested.map((item) => <li>{item}</li>)}</ul>
+        </div>
+      </div>
+
+      <div class="cta">
+        <a class="btn btn-primary" href="/work/musea">Read the case study</a>
+        <a class="btn" href="https://musea-eta.vercel.app" target="_blank" rel="noopener">
+          Visit the live site<span class="sr-only"> (opens in a new tab)</span>
+        </a>
+      </div>
+    </div>
+  </article>
+</section>
+
+<style>
+  .work {
+    display: grid;
+    gap: var(--space-xl);
+    padding-block: var(--space-2xl);
+    scroll-margin-top: 4rem;
+  }
+
+  .feature { display: grid; gap: var(--space-xl); }
+  @media (min-width: 60rem) {
+    .feature { grid-template-columns: 1.15fr 1fr; align-items: start; }
+  }
+
+  /* Screenshot in a simple browser frame */
+  .frame {
+    border: 1px solid var(--c-line);
+    border-radius: var(--radius-l);
+    overflow: hidden;
+    background: var(--c-surface);
+  }
+  .frame-bar {
+    padding: var(--space-xs) var(--space-m);
+    border-bottom: 1px solid var(--c-line);
+    font-size: var(--step--1);
+    color: var(--c-ink-soft);
+  }
+  .frame :global(img) { width: 100%; aspect-ratio: 16 / 10; object-fit: cover; object-position: top; }
+
+  .info { display: grid; gap: var(--space-l); }
+  h3 { font-size: var(--step-3); }
+  h3 a { text-decoration: none; }
+  h3 a:hover { text-decoration: underline; text-decoration-color: var(--c-markup); }
+  .lede { color: var(--c-ink-soft); }
+
+  .split { display: grid; gap: var(--space-l); }
+  @media (min-width: 36rem) {
+    .split { grid-template-columns: 1fr 1fr; }
+  }
+  h4 { font-family: var(--font-display); font-size: var(--step-0); margin-bottom: var(--space-xs); }
+
+  .split ul { list-style: none; padding: 0; display: grid; gap: var(--space-s); font-size: var(--step--1); }
+  .split li { position: relative; padding-left: 1.1rem; }
+  .split li::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 0.55em;
+    width: 0.45rem;
+    height: 0.45rem;
+    border-radius: 50%;
+  }
+  .built li::before { background: var(--c-ink); }
+  .tested li::before { background: var(--c-markup); } /* same color as the markup layer */
+
+  .cta { display: flex; flex-wrap: wrap; gap: var(--space-s); }
+</style>
