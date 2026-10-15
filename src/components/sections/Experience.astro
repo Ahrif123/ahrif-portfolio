@@ -9,8 +9,7 @@ import { experience } from '../../data/experience';
       <li class="role">
         <div class="when">
           <p class="dates">
-            <time datetime={role.startIso}>{role.start}</time> to{' '}
-            <time datetime={role.endIso}>{role.end}</time>
+            <time datetime={role.startIso}>{role.start}</time> – <time datetime={role.endIso}>{role.end}</time>
           </p>
           <p class="duration">{role.duration}</p>
         </div>
@@ -61,7 +60,7 @@ import { experience } from '../../data/experience';
     border: 2px solid var(--c-ink);
   }
 
-  .dates { font-weight: 600; }
+  .dates { font-weight: 600; white-space: nowrap; }
   .duration, .company { color: var(--c-ink-soft); font-size: var(--step--1); }
   .what { display: grid; gap: var(--space-xs); }
   h3 { font-size: var(--step-2); }
@@ -72,6 +71,7 @@ import { experience } from '../../data/experience';
     margin-top: var(--space-xs);
     padding-left: 1.1rem;
     max-width: var(--measure);
+    list-style: disc;
   }
   .points li::marker { color: var(--c-ink-soft); }
 
@@ -94,7 +94,7 @@ import { experience } from '../../data/experience';
   /* Desktop: dates in their own column, the line runs between the columns */
   @media (min-width: 48rem) {
     .role {
-      grid-template-columns: 10rem 1fr;
+      grid-template-columns: 11.5rem 1fr;
       gap: var(--space-xl);
       padding: 0;
       border-left: 0;
