@@ -1,7 +1,9 @@
 ---
 import { getCollection } from 'astro:content';
+import { Image } from 'astro:assets';
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import BugReport from '../../components/ui/BugReport.astro';
+import museaHome from '../../assets/images/musea-home.png';
 
 const bugs = (await getCollection('bugs', (b) => b.data.project === 'MUSÉA'))
   .sort((a, b) => a.data.code.localeCompare(b.data.code));
@@ -44,8 +46,8 @@ const approach = [
   description="How Ahrif Hajjie Cruz built MUSÉA, an art community on Next.js and Supabase, and then tested it like a client product: test plan, test cases, security checks and bug reports."
   type="article"
 >
-  <article class="case container">
-    <header class="head">
+  <article>
+    <header class="container head">
       <a class="back" href="/#work">Back to selected work</a>
       <h1>MUSÉA</h1>
       <p class="lede">
@@ -62,21 +64,33 @@ const approach = [
       <dl class="facts">
         {facts.map((f) => <div><dt>{f.label}</dt><dd>{f.value}</dd></div>)}
       </dl>
+      <div class="frame">
+        <div class="frame-bar" aria-hidden="true">musea-eta.vercel.app</div>
+        <Image
+          src={museaHome}
+          alt="MUSÉA homepage showing an artwork feed and calls to share art"
+          widths={[640, 1000, 1400, 1800]}
+          sizes="(min-width: 72rem) 72rem, 100vw"
+          loading="eager"
+        />
+      </div>
     </header>
 
-    <section class="block" aria-labelledby="built-title">
-      <h2 id="built-title">What I built</h2>
-      <div class="highlights">
-        {highlights.map((h) => (
-          <div class="highlight">
-            <h3>{h.title}</h3>
-            <p>{h.body}</p>
-          </div>
-        ))}
-      </div>
-    </section>
+    <div class="band">
+      <section class="container block" aria-labelledby="built-title">
+        <h2 id="built-title">What I built</h2>
+        <div class="highlights">
+          {highlights.map((h) => (
+            <div class="highlight">
+              <h3>{h.title}</h3>
+              <p>{h.body}</p>
+            </div>
+          ))}
+        </div>
+      </section>
+    </div>
 
-    <section class="block" aria-labelledby="tested-title">
+    <section class="container block" aria-labelledby="tested-title">
       <h2 id="tested-title">How I tested it</h2>
       <p class="block-intro">
         I treated MUSÉA like a product handed to me by a client: write down what
@@ -86,24 +100,28 @@ const approach = [
         {approach.map((a) => <div><dt>{a.label}</dt><dd>{a.value}</dd></div>)}
       </dl>
       <div class="suite">
-        <h3>Comments test suite</h3>
-        <p>
-          21 test cases across 9 requirements: 8 positive, 9 negative, 1 edge
-          case and 3 UI checks. Each one has its own tab with steps, expected
-          and actual results, and links back to the requirement it covers.
-        </p>
-        <a href="/files/MUSEA-Comments-Test-Cases.xlsx" download>Download the workbook (.xlsx)</a>
+        <div>
+          <h3>Comments test suite</h3>
+          <p>
+            21 test cases across 9 requirements: 8 positive, 9 negative, 1 edge
+            case and 3 UI checks. Each one has its own tab with steps, expected
+            and actual results, and links back to the requirement it covers.
+          </p>
+        </div>
+        <a class="btn" href="/files/MUSEA-Comments-Test-Cases.xlsx" download>Download (.xlsx)</a>
       </div>
     </section>
 
-    <section class="block" id="bugs" aria-labelledby="bugs-title">
-      <h2 id="bugs-title">Bugs found</h2>
-      <div class="bug-list">
-        {bugs.map((bug) => <BugReport bug={bug} />)}
-      </div>
-    </section>
+    <div class="band">
+      <section class="container block" id="bugs" aria-labelledby="bugs-title">
+        <h2 id="bugs-title">Bugs found</h2>
+        <div class="bug-list">
+          {bugs.map((bug) => <BugReport bug={bug} />)}
+        </div>
+      </section>
+    </div>
 
-    <section class="block" aria-labelledby="next-title">
+    <section class="container block" aria-labelledby="next-title">
       <h2 id="next-title">What's next</h2>
       <ul class="next">
         <li>Automate the core comment tests in Playwright and run them on every push.</li>
@@ -115,12 +133,19 @@ const approach = [
 </BaseLayout>
 
 <style>
-  .case { display: grid; gap: var(--space-2xl); padding-block: var(--space-2xl); }
-
-  .head { display: grid; gap: var(--space-l); }
-  .back { font-size: var(--step--1); color: var(--c-ink-soft); }
+  .head {
+    display: grid;
+    gap: var(--space-l);
+    padding-block: var(--space-xl) var(--space-2xl);
+  }
+  .back { font-size: var(--step--1); color: var(--c-ink-soft); width: fit-content; }
+  .head h1 { font-size: var(--step-5); }
   .lede { font-size: var(--step-1); color: var(--c-ink-soft); max-width: 60ch; }
-  .cta { display: flex; flex-wrap: wrap; gap: var(--space-s); }
+
+  .cta { display: grid; gap: var(--space-s); }
+  @media (min-width: 30rem) {
+    .cta { display: flex; flex-wrap: wrap; }
+  }
 
   .facts, .approach {
     display: grid;
@@ -132,14 +157,33 @@ const approach = [
   dt { font-size: var(--step--1); color: var(--c-ink-soft); }
   dd { margin: 0; font-weight: 600; }
 
-  .block { display: grid; gap: var(--space-l); scroll-margin-top: 5rem; }
+  /* Screenshot */
+  .frame {
+    margin-top: var(--space-m);
+    overflow: hidden;
+    background: var(--c-canvas);
+    border: 1px solid var(--c-line);
+    border-radius: var(--radius-l);
+    box-shadow: 0 24px 48px -28px rgb(26 34 56 / 0.5);
+  }
+  .frame-bar {
+    padding: var(--space-xs) var(--space-m);
+    border-bottom: 1px solid var(--c-line);
+    font-size: var(--step--1);
+    color: var(--c-ink-soft);
+  }
+  .frame :global(img) { width: 100%; aspect-ratio: 16 / 9; object-fit: cover; object-position: top; }
+
+  /* Sections */
+  .block { display: grid; gap: var(--space-l); padding-block: var(--space-2xl); scroll-margin-top: 4rem; }
   .block-intro { color: var(--c-ink-soft); }
 
   .highlights { display: grid; gap: var(--space-xl); }
   @media (min-width: 48rem) {
-    .highlights { grid-template-columns: 1fr 1fr; gap: var(--space-xl) var(--space-2xl); }
+    .highlights { grid-template-columns: 1fr 1fr; gap: var(--space-2xl); }
   }
-  .highlight h3 { font-size: var(--step-1); margin-bottom: var(--space-xs); }
+  .highlight { display: grid; gap: var(--space-xs); align-content: start; }
+  .highlight h3 { font-size: var(--step-1); }
   .highlight p { color: var(--c-ink-soft); }
 
   .approach div { display: grid; gap: var(--space-2xs); }
@@ -150,17 +194,20 @@ const approach = [
 
   .suite {
     display: grid;
-    gap: var(--space-xs);
+    gap: var(--space-m);
     padding: var(--space-l);
     background: var(--c-surface);
     border: 1px solid var(--c-line);
     border-left: 3px solid var(--c-markup);
-    border-radius: var(--radius-s);
+    border-radius: var(--radius-l);
   }
-  .suite h3 { font-size: var(--step-1); }
+  @media (min-width: 48rem) {
+    .suite { grid-template-columns: 1fr auto; align-items: center; gap: var(--space-xl); }
+  }
+  .suite h3 { font-size: var(--step-1); margin-bottom: var(--space-2xs); }
   .suite p { color: var(--c-ink-soft); }
-  .suite a { font-weight: 600; }
 
   .bug-list { display: grid; gap: var(--space-l); }
+  .band :global(.bug) { background: var(--c-canvas); }
   .next { padding-left: 1.2rem; display: grid; gap: var(--space-xs); }
 </style>

@@ -5,25 +5,51 @@ import BugReport from '../../components/ui/BugReport.astro';
 
 const bugs = (await getCollection('bugs')).sort((a, b) => a.data.code.localeCompare(b.data.code));
 const openCount = bugs.filter((b) => b.data.status === 'Open').length;
+const verifiedCount = bugs.filter((b) => b.data.status === 'Verified').length;
 ---
 <BaseLayout
   title="QA samples"
-  description="Bug reports and test documentation by Ahrif Hajjie Cruz, written the way he wrote them as a QA tester on an HRIS platform."
+  description="Test cases and bug reports by Ahrif Hajjie Cruz, written the way he wrote them as a QA tester on an HRIS platform."
 >
-  <div class="container page">
-    <header class="intro">
-      <h1>QA samples</h1>
-      <p>
-        These are written the way I wrote them at work: clear steps, expected
-        against actual, and evidence. They come from my own projects, because
-        the HRIS testing I did at DAI is confidential.
-      </p>
-    </header>
+  <header class="container intro">
+    <h1>QA samples</h1>
+    <p class="lede">
+      These are written the way I wrote them at work: clear steps, expected
+      against actual, and evidence. They come from my own projects, because
+      the HRIS testing I did at DAI is confidential.
+    </p>
+    <nav class="jump" aria-label="On this page">
+      <a href="#docs">Test documentation</a>
+      <a href="#bugs">Bug reports ({bugs.length})</a>
+    </nav>
+  </header>
 
-    <section class="block" aria-labelledby="bugs-title">
+  <section id="docs" class="container block" aria-labelledby="docs-title">
+    <h2 id="docs-title">Test documentation</h2>
+    <article class="doc">
+      <div class="doc-text">
+        <h3>MUSÉA comments test suite</h3>
+        <p>
+          21 test cases across 9 requirements, in the format I used at DAI: a
+          master sheet, one tab per test case with step-by-step expected
+          results, a requirements traceability matrix and a defect log.
+        </p>
+        <ul class="doc-facts" aria-label="Test case mix">
+          <li>8 positive</li>
+          <li>9 negative</li>
+          <li>1 edge case</li>
+          <li>3 UI checks</li>
+        </ul>
+      </div>
+      <a class="btn btn-primary" href="/files/MUSEA-Comments-Test-Cases.xlsx" download>Download the workbook (.xlsx)</a>
+    </article>
+  </section>
+
+  <div class="band">
+    <section id="bugs" class="container block" aria-labelledby="bugs-title">
       <div class="block-head">
         <h2 id="bugs-title">Bug reports</h2>
-        <p>{bugs.length} logged, {openCount} open</p>
+        <p>{bugs.length} logged: {verifiedCount} fixed and verified, {openCount} open</p>
       </div>
       <div class="list">
         {bugs.map((bug) => <BugReport bug={bug} />)}
@@ -33,12 +59,70 @@ const openCount = bugs.filter((b) => b.data.status === 'Open').length;
 </BaseLayout>
 
 <style>
-  .page { display: grid; gap: var(--space-2xl); padding-block: var(--space-2xl); }
-  .intro { display: grid; gap: var(--space-m); }
-  .intro h1 { font-size: var(--step-4); }
-  .intro p { color: var(--c-ink-soft); }
-  .block { display: grid; gap: var(--space-l); }
-  .block-head { display: flex; flex-wrap: wrap; align-items: baseline; justify-content: space-between; gap: var(--space-s); }
-  .block-head p { color: var(--c-ink-soft); font-size: var(--step--1); }
+  .intro {
+    display: grid;
+    gap: var(--space-l);
+    padding-block: var(--space-2xl) var(--space-xl);
+  }
+  .intro h1 { font-size: var(--step-5); }
+  .lede { font-size: var(--step-1); color: var(--c-ink-soft); max-width: 60ch; }
+
+  .jump { display: flex; flex-wrap: wrap; gap: var(--space-s); }
+  .jump a {
+    display: inline-flex;
+    align-items: center;
+    min-height: 2.75rem;
+    padding: 0 1rem;
+    border: 1px solid var(--c-line);
+    border-radius: 999px;
+    background: var(--c-surface);
+    text-decoration: none;
+    font-weight: 600;
+  }
+  .jump a:hover { border-color: var(--c-markup); color: var(--c-markup); }
+
+  .block {
+    display: grid;
+    gap: var(--space-l);
+    padding-block: var(--space-xl) var(--space-2xl);
+    scroll-margin-top: 4rem;
+  }
+  .band .block { padding-block: var(--space-2xl); }
+
+  /* Test documentation card */
+  .doc {
+    display: grid;
+    gap: var(--space-l);
+    padding: var(--space-l);
+    background: var(--c-surface);
+    border: 1px solid var(--c-line);
+    border-left: 3px solid var(--c-markup);
+    border-radius: var(--radius-l);
+  }
+  @media (min-width: 48rem) {
+    .doc { grid-template-columns: 1fr auto; align-items: center; padding: var(--space-xl); gap: var(--space-2xl); }
+  }
+  .doc-text { display: grid; gap: var(--space-s); }
+  .doc-text h3 { font-size: var(--step-2); }
+  .doc-text p { color: var(--c-ink-soft); }
+  .doc-facts { list-style: none; padding: 0; display: flex; flex-wrap: wrap; gap: var(--space-xs); }
+  .doc-facts li {
+    font-size: var(--step--1);
+    padding: 0.15rem 0.6rem;
+    border: 1px solid var(--c-line);
+    border-radius: var(--radius-s);
+  }
+
+  .block-head {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: var(--space-s);
+  }
+  .block-head p { color: var(--c-ink-soft); }
+
   .list { display: grid; gap: var(--space-l); }
+  /* Bug cards sit on the gray color so they stand out from the white band */
+  .band :global(.bug) { background: var(--c-canvas); }
 </style>
