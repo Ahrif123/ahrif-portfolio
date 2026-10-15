@@ -8,7 +8,7 @@ import { site } from '../data/site';
 const host = new URL(site.url).host;
 ---
 <!doctype html>
-<html lang="en">
+<html lang="en" data-theme="light">
   <head>
     <meta charset="utf-8" />
     <meta name="robots" content="noindex" />
@@ -19,110 +19,118 @@ const host = new URL(site.url).host;
       <div class="text">
         <p class="name">Ahrif Hajjie Cruz</p>
         <p class="role">QA tester who also builds the front end.</p>
+        <ul class="proof">
+          <li><mark>6 months</mark> testing an HRIS platform</li>
+          <li><mark>30 automated checks</mark> on every push</li>
+        </ul>
         <p class="url">{host}</p>
       </div>
-      <div class="board" aria-hidden="true">
-        <div class="row">
-          <span>Reply</span>
-          <span class="bug">Delete</span>
-          <svg viewBox="0 0 220 80" preserveAspectRatio="none">
-            <path d="M24 44 C18 18 110 6 186 16 C214 22 216 56 182 66 C122 78 34 74 14 52 C6 40 34 22 70 18" />
-          </svg>
-          <span class="pin">1</span>
+
+      <div class="visual" aria-hidden="true">
+        <div class="comment">
+          <div class="row">
+            <span>Reply</span>
+            <span class="bug">Delete</span>
+            <svg viewBox="0 0 220 80" preserveAspectRatio="none">
+              <path d="M24 44 C18 18 110 6 186 16 C214 22 216 56 182 66 C122 78 34 74 14 52 C6 40 34 22 70 18" />
+            </svg>
+            <span class="pin">1</span>
+          </div>
+          <p class="scribble">3px low!</p>
         </div>
-        <p class="note">3px low!</p>
+        <div class="sticky">BUG-MUS-001: "Delete" sits 3px below "Reply".</div>
       </div>
     </div>
   </body>
 </html>
 
 <style>
-  body { margin: 0; }
+  /* Fixed colors so the image always comes out the same, whatever theme the computer uses */
+  body { margin: 0; background: #10214d; }
+  body::before { display: none; }
+
   .card {
     box-sizing: border-box;
     width: 1200px;
     height: 630px;
     padding: 72px 80px;
     display: grid;
-    grid-template-columns: 1.3fr 1fr;
+    grid-template-columns: 1.25fr 1fr;
     align-items: center;
     gap: 56px;
-    background: #eef1f4;
-    color: #1a2238;
+    color: #f1f5ff;
+    background:
+      radial-gradient(60% 75% at 88% 20%, #2f62c4, transparent 65%),
+      radial-gradient(45% 60% at 0% 100%, rgb(214 16 90 / 0.32), transparent 70%),
+      #10214d;
   }
+
+  .text { display: grid; gap: 22px; }
   .name {
     font-family: var(--font-display);
     font-weight: 700;
-    font-size: 84px;
+    font-size: 80px;
     line-height: 1;
     letter-spacing: -0.02em;
     max-width: none;
   }
-  .role {
-    margin-top: 28px;
-    font-family: var(--font-display);
-    font-size: 36px;
-    line-height: 1.2;
-    color: #4a5468;
-    max-width: none;
-  }
-  .url { margin-top: 56px; font-size: 24px; color: #4a5468; max-width: none; }
+  .role { font-family: var(--font-display); font-size: 34px; line-height: 1.2; color: #bccaea; max-width: none; }
+  .proof { list-style: none; padding: 0; margin: 6px 0 0; display: grid; gap: 12px; font-size: 26px; }
+  .proof mark { background: #ffe45c; color: #14203f; padding: 0.05em 0.3em; border-radius: 6px; }
+  .url { margin-top: 18px; font-size: 22px; color: #bccaea; max-width: none; }
 
-  .board {
-    height: 380px;
-    display: grid;
-    place-content: center;
-    justify-items: center;
-    border: 2px solid #cbd2dc;
-    border-radius: 20px;
-    background-color: #fff;
-    background-image: radial-gradient(rgba(26, 34, 56, 0.14) 1.5px, transparent 1.5px);
-    background-size: 22px 22px;
-  }
-  .row {
+  .visual { display: grid; gap: 28px; justify-items: center; }
+  .comment {
     position: relative;
-    display: inline-flex;
-    align-items: flex-start;
-    gap: 28px;
-    font-size: 34px;
-    color: #4a5468;
+    width: 100%;
+    padding: 46px 40px 34px;
+    background: #fff;
+    border-radius: 18px;
+    box-shadow: 0 30px 60px -24px rgb(0 0 0 / 0.6);
+    display: grid;
+    justify-items: center;
   }
+  .row { position: relative; display: inline-flex; align-items: flex-start; gap: 28px; font-size: 32px; color: #46557a; }
   .bug { transform: translateY(5px); text-decoration: underline; }
   svg {
     position: absolute;
-    inset: -26px -40px;
-    width: calc(100% + 80px);
-    height: calc(100% + 52px);
+    inset: -24px -38px;
+    width: calc(100% + 76px);
+    height: calc(100% + 48px);
     max-width: none;
     overflow: visible;
   }
-  path {
-    fill: none;
-    stroke: #d6105a;
-    stroke-width: 4;
-    stroke-linecap: round;
-    vector-effect: non-scaling-stroke;
-  }
+  path { fill: none; stroke: #d6105a; stroke-width: 4; stroke-linecap: round; vector-effect: non-scaling-stroke; }
   .pin {
     position: absolute;
-    top: -62px;
-    left: 64px;
-    width: 36px;
-    height: 36px;
+    top: -58px;
+    left: 62px;
+    width: 34px;
+    height: 34px;
     display: grid;
     place-items: center;
     border-radius: 50%;
     background: #d6105a;
     color: #fff;
-    font-size: 18px;
+    font-size: 17px;
     font-weight: 700;
   }
-  .note {
-    margin-top: 44px;
+  .scribble {
+    margin-top: 24px;
     font-family: var(--font-hand);
-    font-size: 46px;
+    font-size: 44px;
     color: #d6105a;
     transform: rotate(-6deg);
     max-width: none;
+  }
+  .sticky {
+    padding: 18px 24px;
+    background: #fff1a1;
+    color: #2a2a33;
+    font-size: 21px;
+    font-weight: 600;
+    border-radius: 4px 4px 16px 4px;
+    transform: rotate(-2deg);
+    box-shadow: 0 18px 30px -18px rgb(0 0 0 / 0.6);
   }
 </style>
