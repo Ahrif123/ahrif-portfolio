@@ -26,7 +26,8 @@ const props = Astro.props;
     <meta name="theme-color" content="#12161f" media="(prefers-color-scheme: dark)" />
     <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
     <link rel="sitemap" href="/sitemap-index.xml" />
-    <SEO {...props} />
+        <SEO {...props} />
+    <script is:inline>document.documentElement.classList.add('js');</script>
   </head>
   <body>
     <a class="skip-link" href="#main">Skip to content</a>
@@ -34,6 +35,27 @@ const props = Astro.props;
     <main id="main">
       <slot />
     </main>
-    <Footer />
+        <Footer />
+    <script>
+      // Header: frosted glass once you scroll
+      const header = document.querySelector('.site-header');
+      const onScroll = () => header?.classList.toggle('is-scrolled', window.scrollY > 8);
+      onScroll();
+      window.addEventListener('scroll', onScroll, { passive: true });
+
+      // Mark headings and timeline entries as they scroll into view
+      const observer = new IntersectionObserver(
+        (entries) => {
+          for (const entry of entries) {
+            if (entry.isIntersecting) {
+              entry.target.classList.add('is-inview');
+              observer.unobserve(entry.target);
+            }
+          }
+        },
+        { rootMargin: '0px 0px -15% 0px' },
+      );
+      document.querySelectorAll('main h2, .role').forEach((el) => observer.observe(el));
+    </script>
   </body>
 </html>
