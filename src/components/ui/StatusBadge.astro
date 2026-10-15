@@ -1,0 +1,31 @@
+---
+interface Props {
+  status: 'Open' | 'Fixed' | 'Verified';
+}
+const { status } = Astro.props;
+---
+<span class={`badge badge-${status.toLowerCase()}`}>{status}</span>
+
+<style>
+  .badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+    padding: 0.1rem 0.6rem;
+    border: 1px solid currentColor;
+    border-radius: 999px;
+    font-size: var(--step--1);
+    font-weight: 600;
+    white-space: nowrap;
+  }
+  .badge::before {
+    content: '';
+    width: 0.45rem;
+    height: 0.45rem;
+    border-radius: 50%;
+    background: currentColor;
+  }
+  .badge-open { color: var(--c-markup); }
+  .badge-fixed,
+  .badge-verified { color: var(--c-pass); }
+</style>

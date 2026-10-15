@@ -1,0 +1,92 @@
+---
+import type { CollectionEntry } from 'astro:content';
+import StatusBadge from './StatusBadge.astro';
+
+interface Props {
+  bug: CollectionEntry<'bugs'>;
+}
+const { bug } = Astro.props;
+const d = bug.data;
+const foundLabel = d.found.toLocaleDateString('en-PH', { year: 'numeric', month: 'short', day: 'numeric' });
+const foundIso = d.found.toISOString().slice(0, 10);
+---
+<article class="bug" id={d.code.toLowerCase()}>
+  <header class="head">
+    <p class="code">{d.code}</p>
+    <h3>{d.title}</h3>
+    <StatusBadge status={d.status} />
+  </header>
+
+  <dl class="fields">
+    <div><dt>Project</dt><dd>{d.project}</dd></div>
+    <div><dt>Module</dt><dd>{d.module}</dd></div>
+    <div><dt>Severity</dt><dd>{d.severity}</dd></div>
+    <div><dt>Priority</dt><dd>{d.priority}</dd></div>
+    <div><dt>Found</dt><dd><time datetime={foundIso}>{foundLabel}</time></dd></div>
+    <div><dt>Environment</dt><dd>{d.environment}</dd></div>
+  </dl>
+
+  <div class="part">
+    <h4>Steps to reproduce</h4>
+    <ol>{d.steps.map((step) => <li>{step}</li>)}</ol>
+  </div>
+
+  <div class="results">
+    <div class="part">
+      <h4>Expected</h4>
+      <p>{d.expected}</p>
+    </div>
+    <div class="part actual">
+      <h4>Actual</h4>
+      <ul>{d.actual.map((item) => <li>{item}</li>)}</ul>
+    </div>
+  </div>
+
+  {d.cause && (
+    <div class="part">
+      <h4>Cause</h4>
+      <p>{d.cause}</p>
+    </div>
+  )}
+  {d.fix && (
+    <div class="part">
+      <h4>Fix and retest</h4>
+      <p>{d.fix}</p>
+    </div>
+  )}
+</article>
+
+<style>
+  .bug {
+    display: grid;
+    gap: var(--space-l);
+    padding: var(--space-l);
+    background: var(--c-surface);
+    border: 1px solid var(--c-line);
+    border-radius: var(--radius-l);
+    scroll-margin-top: 5rem;
+  }
+  .head { display: grid; gap: var(--space-xs); justify-items: start; }
+  .code { font-size: var(--step--1); font-weight: 700; color: var(--c-ink-soft); }
+  h3 { font-size: var(--step-1); }
+
+  .fields {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(9.5rem, 1fr));
+    gap: var(--space-s) var(--space-l);
+    padding-block: var(--space-m);
+    border-block: 1px solid var(--c-line);
+  }
+  dt { font-size: var(--step--1); color: var(--c-ink-soft); }
+  dd { margin: 0; font-weight: 600; font-size: var(--step--1); }
+
+  h4 { font-family: var(--font-display); font-size: var(--step-0); margin-bottom: var(--space-2xs); }
+  .part ol, .part ul { padding-left: 1.2rem; display: grid; gap: var(--space-2xs); }
+
+  .results { display: grid; gap: var(--space-l); }
+  @media (min-width: 40rem) {
+    .results { grid-template-columns: 1fr 1fr; }
+  }
+  /* "Actual" is where the bug lives, so it gets the markup color */
+  .actual { border-left: 3px solid var(--c-markup); padding-left: var(--space-m); }
+</style>

@@ -1,0 +1,44 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import BugReport from '../../components/ui/BugReport.astro';
+
+const bugs = (await getCollection('bugs')).sort((a, b) => a.data.code.localeCompare(b.data.code));
+const openCount = bugs.filter((b) => b.data.status === 'Open').length;
+---
+<BaseLayout
+  title="QA samples"
+  description="Bug reports and test documentation by Ahrif Hajjie Cruz, written the way he wrote them as a QA tester on an HRIS platform."
+>
+  <div class="container page">
+    <header class="intro">
+      <h1>QA samples</h1>
+      <p>
+        These are written the way I wrote them at work: clear steps, expected
+        against actual, and evidence. They come from my own projects, because
+        the HRIS testing I did at DAI is confidential.
+      </p>
+    </header>
+
+    <section class="block" aria-labelledby="bugs-title">
+      <div class="block-head">
+        <h2 id="bugs-title">Bug reports</h2>
+        <p>{bugs.length} logged, {openCount} open</p>
+      </div>
+      <div class="list">
+        {bugs.map((bug) => <BugReport bug={bug} />)}
+      </div>
+    </section>
+  </div>
+</BaseLayout>
+
+<style>
+  .page { display: grid; gap: var(--space-2xl); padding-block: var(--space-2xl); }
+  .intro { display: grid; gap: var(--space-m); }
+  .intro h1 { font-size: var(--step-4); }
+  .intro p { color: var(--c-ink-soft); }
+  .block { display: grid; gap: var(--space-l); }
+  .block-head { display: flex; flex-wrap: wrap; align-items: baseline; justify-content: space-between; gap: var(--space-s); }
+  .block-head p { color: var(--c-ink-soft); font-size: var(--step--1); }
+  .list { display: grid; gap: var(--space-l); }
+</style>
